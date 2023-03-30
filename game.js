@@ -44,11 +44,13 @@ function cat(x, y) {
 }
 
 function treat(x, y) {
+  // Cookie
   push();
   fill(241, 210, 189);
   ellipse(x, y, 45);
   pop();
 
+  // Chocolate chips
   push();
   fill(145, 96, 75);
   ellipse(x - 14, y + 4, 9);
@@ -60,8 +62,68 @@ function treat(x, y) {
   pop();
 }
 
+function fish(x, y) {
+  // Fish
+  push();
+  fill(200, 218, 242);
+  ellipse(x, y, 45, 30);
+
+  // Tail fish
+  triangle(x, y, x + 34, y - 12, x + 34, y + 12);
+  pop();
+}
+
+function bomb(x, y) {
+  // Bomb
+  push();
+  fill(118, 48, 136);
+  ellipse(x, y, 40);
+  pop();
+
+  push();
+  translate(x + 10, y - 14);
+  rotate(0.5);
+  fill(118, 48, 136);
+  ellipse(0, 0, 20, 16);
+  pop();
+
+  // Thread on bomb
+  push();
+  fill(130, 97, 78);
+  translate(x + 10, y - 18);
+  rotate(-0.8);
+  rect(0, 0, 12, 4, 10);
+  /* line(x + 10, y - 20, x + 20, y - 30); */
+  pop();
+
+  // Skull
+  push();
+  fill(201, 167, 209);
+  translate(x + 1, y - 2);
+  rotate(0.4);
+  ellipse(0, 0, 20, 18);
+  pop();
+
+  // Jaw skull
+  push();
+  fill(201, 167, 209);
+  translate(x - 6, y);
+  rotate(0.5);
+  rect(0, 0, 10, 8, 3);
+  pop();
+
+  // Eyeholes skull
+  push();
+  fill(118, 48, 136);
+  ellipse(x - 3, y - 3, 6);
+  ellipse(x + 5, y + 1, 6);
+  pop();
+}
+
 function draw() {
   background(260, 220, 244);
   cat(300, 300);
   treat(300, 180);
+  fish(150, 180);
+  bomb(450, 180);
 }
