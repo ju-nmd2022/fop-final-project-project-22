@@ -36,6 +36,22 @@ function cat(x, y) {
   ellipse(x, y - 20, 50, 26);
   pop();
 
+  push();
+  translate(x - 10, y - 34);
+  rotate(-0.3);
+  ellipse(0, 0, 22, 10);
+  pop();
+
+  push();
+  translate(x + 10, y - 34);
+  rotate(0.3);
+  ellipse(0, 0, 22, 10);
+  pop();
+
+  // Fangs
+  triangle(x - 18, y - 30, x - 12, y - 25, x - 9, y - 30);
+  triangle(x + 18, y - 30, x + 12, y - 25, x + 9, y - 30);
+
   // Paw left
   ellipse(x - 30, y + 40, 15);
 
@@ -120,10 +136,136 @@ function bomb(x, y) {
   pop();
 }
 
+function frame(x, y) {
+  // Frame background
+  push();
+  fill(252, 240, 240);
+  rect(x, y, 80, 100);
+  pop();
+
+  // Head
+  push();
+  fill(221, 198, 188);
+  ellipse(x + 40, y + 52, 40, 30);
+
+  // Ears
+  triangle(x + 22, y + 50, x + 20, y + 36, x + 50, y + 40);
+  triangle(x + 44, y + 40, x + 60, y + 36, x + 60, y + 48);
+  pop();
+
+  // Eyes
+  push();
+  fill(0, 0, 0);
+  ellipse(x + 30, y + 52, 6);
+  ellipse(x + 50, y + 52, 6);
+  pop();
+
+  // Frame
+  push();
+  fill(178, 148, 127);
+  rect(x, y, 5, 100);
+  rect(x + 75, y, 5, 100);
+  translate(x, y + 100);
+  rotate(-1.56);
+  rect(0, 0, 5, 80);
+  pop();
+
+  push();
+  fill(178, 148, 127);
+  rect(x, y, 5, 100);
+  translate(x, y);
+  rotate(-1.56);
+  rect(0, 0, 5, 80);
+  pop();
+}
+
+function sceneryWindow(x, y) {
+  push();
+  fill(255, 215, 176);
+  rect(x, y, 200, 200);
+  pop();
+
+  // Sun
+  push();
+  fill(252, 217, 134);
+  ellipse(x + 60, y + 140, 60, 50);
+  pop();
+
+  // Frame
+  push();
+  fill(178, 148, 127);
+  rect(x, y, 10, 200);
+  rect(x + 200, y, 10, 200);
+
+  translate(x, y + 200);
+  rotate(-1.56);
+  rect(0, 0, 10, 210);
+  pop();
+
+  push();
+  fill(178, 148, 127);
+  rect(x, y, 10, 200);
+  translate(x, y);
+  rotate(-1.56);
+  rect(0, 0, 10, 210);
+  pop();
+
+  push();
+  fill(178, 148, 127);
+  rect(x, y, 10, 200);
+  translate(x, y + 80);
+  rotate(-1.56);
+  rect(0, 0, 10, 210);
+  pop();
+}
+
+function cloud1(x, y) {
+  push();
+  fill(255, 255, 255);
+  rect(x, y, 100, 20, 100);
+  ellipse(x + 40, y, 40);
+  pop();
+}
+
+function cloud2(x, y) {
+  push();
+  fill(255, 255, 255);
+  rect(x, y, 100, 20, 100);
+  ellipse(x + 90, y - 5, 50);
+  ellipse(x + 50, y - 5, 40);
+  pop();
+}
+
+function cloud3(x, y) {
+  push();
+  fill(255, 255, 255);
+  rect(x, y, 58, 16, 100);
+  /* ellipse(x + 42, y, 32); */
+  ellipse(x + 30, y + 2, 20);
+  pop();
+}
+
+function scenery() {
+  // Ground
+  push();
+  fill(173, 196, 184);
+  rect(0, 520, width, height);
+  pop();
+
+  // Clouds
+  cloud1(60, 250);
+  cloud2(500, 150);
+  cloud3(390, 340);
+  /* frame(450, 150); */
+  /* sceneryWindow(50, 50); */
+}
+
 function draw() {
-  background(260, 220, 244);
-  cat(300, 300);
-  treat(300, 180);
-  fish(150, 180);
-  bomb(450, 180);
+  background(254, 232, 227);
+  background(215, 225, 217);
+  scenery();
+  cat(300, 500);
+  treat(300, 300);
+  fish(150, 300);
+  bomb(450, 300);
 }
