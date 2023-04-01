@@ -81,7 +81,7 @@ function treat(x, y) {
 function fish(x, y) {
   // Fish
   push();
-  fill(200, 218, 242);
+  fill(177, 204, 222);
   ellipse(x, y, 45, 30);
 
   // Tail fish
@@ -136,89 +136,6 @@ function bomb(x, y) {
   pop();
 }
 
-function frame(x, y) {
-  // Frame background
-  push();
-  fill(252, 240, 240);
-  rect(x, y, 80, 100);
-  pop();
-
-  // Head
-  push();
-  fill(221, 198, 188);
-  ellipse(x + 40, y + 52, 40, 30);
-
-  // Ears
-  triangle(x + 22, y + 50, x + 20, y + 36, x + 50, y + 40);
-  triangle(x + 44, y + 40, x + 60, y + 36, x + 60, y + 48);
-  pop();
-
-  // Eyes
-  push();
-  fill(0, 0, 0);
-  ellipse(x + 30, y + 52, 6);
-  ellipse(x + 50, y + 52, 6);
-  pop();
-
-  // Frame
-  push();
-  fill(178, 148, 127);
-  rect(x, y, 5, 100);
-  rect(x + 75, y, 5, 100);
-  translate(x, y + 100);
-  rotate(-1.56);
-  rect(0, 0, 5, 80);
-  pop();
-
-  push();
-  fill(178, 148, 127);
-  rect(x, y, 5, 100);
-  translate(x, y);
-  rotate(-1.56);
-  rect(0, 0, 5, 80);
-  pop();
-}
-
-function sceneryWindow(x, y) {
-  push();
-  fill(255, 215, 176);
-  rect(x, y, 200, 200);
-  pop();
-
-  // Sun
-  push();
-  fill(252, 217, 134);
-  ellipse(x + 60, y + 140, 60, 50);
-  pop();
-
-  // Frame
-  push();
-  fill(178, 148, 127);
-  rect(x, y, 10, 200);
-  rect(x + 200, y, 10, 200);
-
-  translate(x, y + 200);
-  rotate(-1.56);
-  rect(0, 0, 10, 210);
-  pop();
-
-  push();
-  fill(178, 148, 127);
-  rect(x, y, 10, 200);
-  translate(x, y);
-  rotate(-1.56);
-  rect(0, 0, 10, 210);
-  pop();
-
-  push();
-  fill(178, 148, 127);
-  rect(x, y, 10, 200);
-  translate(x, y + 80);
-  rotate(-1.56);
-  rect(0, 0, 10, 210);
-  pop();
-}
-
 function cloud1(x, y) {
   push();
   fill(255, 255, 255);
@@ -247,6 +164,7 @@ function cloud3(x, y) {
 
 function scenery() {
   // Ground
+  background(215, 225, 217);
   push();
   fill(173, 196, 184);
   rect(0, 520, width, height);
@@ -254,18 +172,76 @@ function scenery() {
 
   // Clouds
   cloud1(60, 250);
-  cloud2(500, 150);
-  cloud3(390, 340);
-  /* frame(450, 150); */
-  /* sceneryWindow(50, 50); */
+  cloud2(530, 180);
+  cloud3(420, 340);
+}
+
+function logo(x, y) {
+  // Cloud logo
+  ellipse(x, y, 220);
+  ellipse(x - 160, y, 120);
+  ellipse(x + 160, y, 120);
+  ellipse(x + 60, y - 60, 190);
+  ellipse(x - 60, y - 60, 160);
+  ellipse(x - 90, y + 50, 140);
+  ellipse(x, y + 50, 160);
+  ellipse(x + 90, y + 50, 160);
+
+  // Letter C
+  push();
+  fill(260, 220, 244);
+  ellipse(x - 120, y, 60);
+  pop();
+  ellipse(x - 120, y, 20);
+  rect(x - 120, y - 5, 30, 10);
+
+  // Letter A
+  push();
+  fill(260, 220, 244);
+  ellipse(x - 56, y, 60);
+  rect(x - 36, y - 30, 20, 60);
+  pop();
+  ellipse(x - 56, y, 20);
+
+  // Letter T
+  push();
+  fill(260, 220, 244);
+  rect(x - 8, y - 30, 20, 50);
+  ellipse(x + 2, y + 22, 20);
+  rect(x, y - 20, 20, 8);
+  rect(x, y + 18, 20, 14);
+  pop();
+
+  // Letter C
+  push();
+  fill(260, 220, 244);
+  ellipse(x + 56, y, 60);
+  pop();
+  ellipse(x + 56, y, 20);
+  rect(x + 56, y - 5, 30, 10);
+
+  // Letter H
+  push();
+  fill(260, 220, 244);
+  rect(x + 94, y - 30, 20, 60);
+  rect(x + 94, y - 10, 40, 14);
+  rect(x + 124, y, 20, 30);
+  ellipse(x + 134, y, 20);
+  pop();
+}
+
+function menuScreen() {
+  noStroke();
+  scenery();
+  logo(340, 200);
+  cat(300, 500);
 }
 
 function draw() {
-  background(254, 232, 227);
-  background(215, 225, 217);
-  scenery();
-  cat(300, 500);
-  treat(300, 300);
-  fish(150, 300);
-  bomb(450, 300);
+  menuScreen();
+  /* scenery(); */
+  /* cat(300, 500); */
+  /* treat(300, 300); */
+  /* fish(150, 300); */
+  /* bomb(450, 300); */
 }
