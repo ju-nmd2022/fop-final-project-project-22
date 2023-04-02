@@ -234,11 +234,28 @@ function menuScreen() {
   noStroke();
   scenery();
   logo(340, 200);
-  cat(300, 500);
+  cat(340, 500);
+}
+
+let catX = 340;
+let speed = 10;
+function gameScreen() {
+  scenery();
+  cat(catX, 500);
+  treat(340, 300);
+  fish(190, 300);
+  bomb(500, 300);
+
+  if (keyIsDown(37)) {
+    catX = catX - speed;
+  } else if (keyIsDown(39)) {
+    catX = catX + speed;
+  }
 }
 
 function draw() {
   menuScreen();
+  gameScreen();
   /* scenery(); */
   /* cat(300, 500); */
   /* treat(300, 300); */
