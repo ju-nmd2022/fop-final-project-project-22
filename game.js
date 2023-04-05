@@ -35,7 +35,7 @@ function cat(x, y) {
   triangle(x - 18, y - 29, x, y - 36, x + 18, y - 29);
   ellipse(x, y - 20, 50, 26);
   pop();
-
+ 
   push();
   translate(x - 10, y - 34);
   rotate(-0.3);
@@ -262,3 +262,4 @@ function draw() {
   /* fish(150, 300); */
   /* bomb(450, 300); */
 }
+ 
