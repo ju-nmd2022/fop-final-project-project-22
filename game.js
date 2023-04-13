@@ -252,6 +252,9 @@ function logo(x, y) {
   pop();
 }
 
+let isGameActive = true;
+let velocity = 2;
+
 function menuScreen() {
   noStroke();
   scenery();
@@ -264,14 +267,17 @@ let speed = 10;
 function gameScreen() {
   scenery();
   cat(catX, 500);
-  for (let i = 0; i < objects.length; i++) {
-    let obj = objects[i];
-    if (obj.type === "fish") {
-      fish(obj.x, obj.y);
-    } else if (obj.type === "bomb") {
-      bomb(obj.x, obj.y);
-    } else if (obj.type === "treat") {
-      treat(obj.x, obj.y);
+  if (isGameActive) {
+    for (let i = 0; i < objects.length; i++) {
+      let obj = objects[i];
+      if (obj.type === "fish") {
+        fish(obj.x, obj.y);
+      } else if (obj.type === "bomb") {
+        bomb(obj.x, obj.y);
+      } else if (obj.type === "treat") {
+        treat(obj.x, obj.y);
+      }
+      obj.y += obj.velocity;
     }
   }
   // treat(340, 300);
@@ -299,21 +305,36 @@ let objects = [];
 
 function fallingObjects() {
   let randomWidth = Math.floor(random(width));
-  let heightPosition = 100;
+  let heightPosition = -10;
   let newObject;
 
   let randomNumber = Math.floor(Math.random() * 101);
 
   if (randomNumber < 40) {
-    newObject = { type: "fish", x: randomWidth, y: heightPosition };
+    newObject = {
+      type: "fish",
+      x: randomWidth,
+      y: heightPosition,
+      velocity: 2,
+    };
   } else if (randomNumber < 60) {
-    newObject = { type: "bomb", x: randomWidth, y: heightPosition };
+    newObject = {
+      type: "bomb",
+      x: randomWidth,
+      y: heightPosition,
+      velocity: 2,
+    };
   } else {
-    newObject = { type: "treat", x: randomWidth, y: heightPosition };
+    newObject = {
+      type: "treat",
+      x: randomWidth,
+      y: heightPosition,
+      velocity: 2,
+    };
   }
 
   objects.push(newObject);
 }
 
-// starts the falling objects
-// setInterval(fallingObjects, 1000);
+// comment out to start the falling objects
+// setInterval(fallingObjects, 3000);
