@@ -35,7 +35,7 @@ function cat(x, y) {
   triangle(x - 18, y - 29, x, y - 36, x + 18, y - 29);
   ellipse(x, y - 20, 50, 26);
   pop();
- 
+
   push();
   translate(x - 10, y - 34);
   rotate(-0.3);
@@ -76,6 +76,12 @@ function treat(x, y) {
   ellipse(x + 14, y - 6, 9);
   ellipse(x + 2, y - 14, 9);
   pop();
+
+  return {
+    type: "treat",
+    x: x,
+    y: y,
+  };
 }
 
 function fish(x, y) {
@@ -87,6 +93,12 @@ function fish(x, y) {
   // Tail fish
   triangle(x, y, x + 34, y - 12, x + 34, y + 12);
   pop();
+
+  return {
+    type: "fish",
+    x: x,
+    y: y,
+  };
 }
 
 function bomb(x, y) {
@@ -134,6 +146,12 @@ function bomb(x, y) {
   ellipse(x - 3, y - 3, 6);
   ellipse(x + 5, y + 1, 6);
   pop();
+
+  return {
+    type: "bomb",
+    x: x,
+    y: y,
+  };
 }
 
 function cloud1(x, y) {
@@ -242,9 +260,19 @@ let speed = 10;
 function gameScreen() {
   scenery();
   cat(catX, 500);
-  treat(340, 300);
-  fish(190, 300);
-  bomb(500, 300);
+  for (let i = 0; i < objects.length; i++) {
+    let obj = objects[i];
+    if (obj.type === "fish") {
+      fish(obj.x, obj.y);
+    } else if (obj.type === "bomb") {
+      bomb(obj.x, obj.y);
+    } else if (obj.type === "treat") {
+      treat(obj.x, obj.y);
+    }
+  }
+  // treat(340, 300);
+  // fish(190, 300);
+  // bomb(500, 300);
 
   if (keyIsDown(37)) {
     catX = catX - speed;
@@ -262,4 +290,36 @@ function draw() {
   /* fish(150, 300); */
   /* bomb(450, 300); */
 }
- 
+
+let objects = [];
+
+function fallingObjects() {
+  let randomWidth = Math.floor(random(width));
+  let heightPosition = 100;
+  let newObject;
+
+  let randomNumber = Math.floor(Math.random() * 101);
+
+  if (randomNumber < 40) {
+    newObject = { type: "fish", x: randomWidth, y: heightPosition };
+  } else if (randomNumber < 60) {
+    newObject = { type: "bomb", x: randomWidth, y: heightPosition };
+  } else {
+    newObject = { type: "treat", x: randomWidth, y: heightPosition };
+  }
+
+  objects.push(newObject);
+  // console.log(objects);
+
+  // newFish = fish(randomWidth, heightPosition);
+  // newTreats = treat(randomWidth, heightPosition);
+  // newObsticles = bomb(randomWidth, heightPosition);
+
+  // objects.push(newFish);
+  // objects.push(newTreats);
+  // objects.push(newObsticles);
+}
+
+// setInterval(fallingObjects, 1000);
+// objects = fallingObjects();
+// console.log(objects);
