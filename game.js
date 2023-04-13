@@ -1,3 +1,7 @@
+function setup() {
+  createCanvas(800, 600);
+}
+
 // Cat (game character)
 function cat(x, y) {
   noStroke();
@@ -309,17 +313,7 @@ function fallingObjects() {
   }
 
   objects.push(newObject);
-  // console.log(objects);
-
-  // newFish = fish(randomWidth, heightPosition);
-  // newTreats = treat(randomWidth, heightPosition);
-  // newObsticles = bomb(randomWidth, heightPosition);
-
-  // objects.push(newFish);
-  // objects.push(newTreats);
-  // objects.push(newObsticles);
 }
 
+// starts the falling objects
 // setInterval(fallingObjects, 1000);
-// objects = fallingObjects();
-// console.log(objects);
