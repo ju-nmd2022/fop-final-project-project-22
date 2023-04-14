@@ -255,11 +255,16 @@ function logo(x, y) {
 let isGameActive = true;
 let velocity = 2;
 
+let state = "start";
+
 function menuScreen() {
   noStroke();
   scenery();
   logo(340, 200);
   cat(340, 500);
+  let message = "Start game";
+  text(message, 320, 290);
+  textSize(18);
 }
 
 let catX = 340;
@@ -279,12 +284,14 @@ function gameScreen() {
       }
       obj.y += obj.velocity;
     }
+
+    // setInterval(fallingObjects, 3000);
   }
   // treat(340, 300);
   // fish(190, 300);
   // bomb(500, 300);
 
-  if (keyIsDown(37)) {
+  if (keyIsDown(37) && isGameActive) {
     catX = catX - speed;
   } else if (keyIsDown(39)) {
     catX = catX + speed;
@@ -292,14 +299,25 @@ function gameScreen() {
 }
 
 function draw() {
-  menuScreen();
-  gameScreen();
-  /* scenery(); */
-  /* cat(300, 500); */
-  /* treat(300, 300); */
-  /* fish(150, 300); */
-  /* bomb(450, 300); */
+  if (state === "start") {
+    menuScreen();
+  }
+
+  if (state === "game") {
+    gameScreen();
+  }
 }
+function mouseClicked() {
+  if (mouseX > 320 && mouseX < 408 && mouseY > 275 && mouseY < 290) {
+    state = "game";
+  }
+}
+// gameScreen();
+// scenery();
+/* cat(300, 500); */
+/* treat(300, 300); */
+/* fish(150, 300); */
+/* bomb(450, 300); */
 
 let objects = [];
 
@@ -337,4 +355,4 @@ function fallingObjects() {
 }
 
 // comment out to start the falling objects
-// setInterval(fallingObjects, 3000);
+setInterval(fallingObjects, 3000);
