@@ -306,12 +306,24 @@ function draw() {
   if (state === "game") {
     gameScreen();
   }
+
+  changeCursor();
 }
+
 function mouseClicked() {
   if (mouseX > 320 && mouseX < 408 && mouseY > 275 && mouseY < 290) {
     state = "game";
   }
 }
+
+function changeCursor() {
+  if (mouseX > 320 && mouseX < 408 && mouseY > 275 && mouseY < 290) {
+    cursor(HAND);
+  } else {
+    cursor(ARROW);
+  }
+}
+
 // gameScreen();
 // scenery();
 /* cat(300, 500); */
