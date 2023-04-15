@@ -299,6 +299,9 @@ function gameScreen() {
         obj.collided = true;
         //remove the collided object from the array
         objects.splice(i, 1);
+        //increase score by 1
+        score += 1;
+        console.log(score);
       }
     } else {
       obj.collided = false;
@@ -324,6 +327,11 @@ function gameScreen() {
   }
 }
 
+function scoreTracker() {
+  textSize(24);
+  text("Score:" + score, 50, 50);
+}
+
 function draw() {
   if (state === "start") {
     menuScreen();
@@ -334,6 +342,8 @@ function draw() {
   }
 
   changeCursor();
+
+  scoreTracker();
 }
 
 function mouseClicked() {
