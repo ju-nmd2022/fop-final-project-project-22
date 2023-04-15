@@ -255,6 +255,7 @@ function logo(x, y) {
 let isGameActive = true;
 let velocity = 2;
 let score = 0;
+let health = 3;
 let state = "start";
 
 function menuScreen() {
@@ -265,6 +266,11 @@ function menuScreen() {
   let message = "Start game";
   text(message, 320, 290);
   textSize(18);
+}
+
+function gameOver() {
+  isGameActive = false;
+  text("GAME OVER", 200, 200);
 }
 
 let catX = 340;
@@ -292,9 +298,11 @@ function gameScreen() {
     if (
       obj.x < CharacterRightBound &&
       obj.x > characterLeftBound &&
-      obj.y > 444
+      obj.y > 444 &&
+      obj.y < 550
     ) {
-      if (!obj.collided) {
+      //check if the objects are collectable => increase score
+      if ((!obj.collided && obj.type === "fish") || obj.type === "treat") {
         console.log("COLLISION!!");
         obj.collided = true;
         //remove the collided object from the array
@@ -302,9 +310,31 @@ function gameScreen() {
         //increase score by 1
         score += 1;
         console.log(score);
+        //check if the objects are NOT collectable => decrease health
+      } else if (!obj.collided && obj.type === "bomb") {
+        console.log("COLLISION!!");
+        obj.collided = true;
+        //remove the collided object from the array
+        objects.splice(i, 1);
+        //increase score by 1
+        score += 0;
+        health -= 1;
+        console.log("bomb!!!");
+        console.log(score);
+      } else if (obj.y > 550) {
+        console.log("MISSED");
+        //remove the collided object from the array
+        objects.splice(i, 1);
+        //increase score by 1
+        score += 0;
+        health -= 1;
       }
     } else {
       obj.collided = false;
+    }
+
+    if (health === 0) {
+      gameOver();
     }
 
     if (obj.type === "fish") {
@@ -326,10 +356,13 @@ function gameScreen() {
     catX = catX + speed;
   }
 }
-
 function scoreTracker() {
   textSize(24);
   text("Score:" + score, 50, 50);
+}
+
+function healthTracker() {
+  text("Health:" + health, 50, 100);
 }
 
 function draw() {
@@ -344,6 +377,7 @@ function draw() {
   changeCursor();
 
   scoreTracker();
+  healthTracker();
 }
 
 function mouseClicked() {
