@@ -272,20 +272,21 @@ let speed = 10;
 function gameScreen() {
   scenery();
   cat(catX, 500);
-  if (isGameActive) {
-    for (let i = 0; i < objects.length; i++) {
-      let obj = objects[i];
-      if (obj.type === "fish") {
-        fish(obj.x, obj.y);
-      } else if (obj.type === "bomb") {
-        bomb(obj.x, obj.y);
-      } else if (obj.type === "treat") {
-        treat(obj.x, obj.y);
-      }
-      obj.y += obj.velocity;
-    }
 
-    // setInterval(fallingObjects, 3000);
+  if (frameCount % 90 === 0) {
+    fallingObjects();
+  }
+
+  for (let i = 0; i < objects.length; i++) {
+    let obj = objects[i];
+    if (obj.type === "fish") {
+      fish(obj.x, obj.y);
+    } else if (obj.type === "bomb") {
+      bomb(obj.x, obj.y);
+    } else if (obj.type === "treat") {
+      treat(obj.x, obj.y);
+    }
+    obj.y += obj.velocity;
   }
   // treat(340, 300);
   // fish(190, 300);
@@ -317,7 +318,13 @@ function mouseClicked() {
 }
 
 function changeCursor() {
-  if (mouseX > 320 && mouseX < 408 && mouseY > 275 && mouseY < 290) {
+  if (
+    mouseX > 320 &&
+    mouseX < 408 &&
+    mouseY > 275 &&
+    mouseY < 290 &&
+    state === "start"
+  ) {
     cursor(HAND);
   } else {
     cursor(ARROW);
@@ -365,6 +372,3 @@ function fallingObjects() {
 
   objects.push(newObject);
 }
-
-// comment out to start the falling objects
-setInterval(fallingObjects, 3000);
