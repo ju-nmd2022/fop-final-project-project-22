@@ -254,7 +254,7 @@ function logo(x, y) {
 
 let isGameActive = true;
 let velocity = 2;
-
+let score = 0;
 let state = "start";
 
 function menuScreen() {
@@ -272,13 +272,36 @@ let speed = 10;
 function gameScreen() {
   scenery();
   cat(catX, 500);
+  // console.log(catX);
+  //retrieve characters width interval based on x-position in order to compare with objects
+  let characterX = catX;
+  let CharacterWidth = 115;
+  let characterLeftBound = characterX - CharacterWidth / 2;
+  let CharacterRightBound = characterX + CharacterWidth / 2;
+  // console.log(CharacterRightBound);
+  // console.log(characterLeftBound);
 
   if (frameCount % 90 === 0) {
     fallingObjects();
+    // console.log(objects);
   }
 
   for (let i = 0; i < objects.length; i++) {
     let obj = objects[i];
+    // check for collision
+    if (
+      obj.x < CharacterRightBound &&
+      obj.x > characterLeftBound &&
+      obj.y > 444
+    ) {
+      if (!obj.collided) {
+        console.log("COLLISION!!");
+        obj.collided = true;
+      }
+    } else {
+      obj.collided = false;
+    }
+
     if (obj.type === "fish") {
       fish(obj.x, obj.y);
     } else if (obj.type === "bomb") {
