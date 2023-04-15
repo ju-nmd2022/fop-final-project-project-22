@@ -297,6 +297,8 @@ function gameScreen() {
       if (!obj.collided) {
         console.log("COLLISION!!");
         obj.collided = true;
+        //remove the collided object from the array
+        objects.splice(i, 1);
       }
     } else {
       obj.collided = false;
