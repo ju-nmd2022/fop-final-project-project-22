@@ -194,7 +194,7 @@ function scenery() {
 
   // Clouds
   cloud1(60, 250);
-  cloud2(530, 180);
+  cloud2(570, 180);
   cloud3(420, 340);
 }
 
@@ -205,9 +205,10 @@ function logo(x, y) {
   ellipse(x + 160, y, 120);
   ellipse(x + 60, y - 60, 190);
   ellipse(x - 60, y - 60, 160);
-  ellipse(x - 90, y + 50, 140);
+  ellipse(x - 100, y + 60, 140);
   ellipse(x, y + 50, 160);
-  ellipse(x + 90, y + 50, 160);
+  ellipse(x + 100, y + 60, 160);
+  ellipse(x, y + 70, 200);
 
   // Letter C
   push();
@@ -252,6 +253,16 @@ function logo(x, y) {
   pop();
 }
 
+function startButton(x, y) {
+  push();
+  fill(173, 196, 184);
+  ellipse(x, y, 70);
+  fill(255, 255, 255);
+  triangle(x - 10, y - 16, x + 16, y, x - 10, y + 16);
+  pop();
+}
+
+// Menu Screen
 let isGameActive = true;
 let velocity = 2;
 let score = 0;
@@ -261,13 +272,21 @@ let state = "start";
 function menuScreen() {
   noStroke();
   scenery();
-  logo(340, 200);
+  logo(340, 180);
   cat(340, 500);
-  let message = "Start game";
-  text(message, 320, 290);
-  textSize(18);
+  /* push(); */
+  /* fill(173, 196, 184); */
+  /* rect(266, 358, 150, 50, 80); */
+  /* fill(255, 255, 255); */
+  /* let message = "Start game"; */
+  /* text(message, 280, 390); */
+  /* pop(); */
+  /* textSize(20); */
+  /* textStyle(BOLD); */
+  startButton(340, 280);
 }
 
+// Game over screen
 function gameOver() {
   isGameActive = false;
   text("GAME OVER", 200, 200);
@@ -356,15 +375,19 @@ function gameScreen() {
     catX = catX + speed;
   }
 }
+
+// Score Tracker
 function scoreTracker() {
   textSize(24);
   text("Score:" + score, 50, 50);
 }
 
+// Health Tracker
 function healthTracker() {
   text("Health:" + health, 50, 100);
 }
 
+// Screens
 function draw() {
   if (state === "start") {
     menuScreen();
