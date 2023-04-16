@@ -268,7 +268,8 @@ function startButton(x, y) {
 let isGameActive = true;
 let velocity = 2;
 let score = 0;
-let health = "❤️❤️❤️";
+
+let health = ["❤️", "❤️", "❤️"];
 let state = "start";
 
 function menuScreen() {
@@ -338,7 +339,8 @@ function gameScreen() {
         objects.splice(i, 1);
         //increase score by 1
         score += 0;
-        health -= 1;
+        health.pop();
+        // health -= 1;
         console.log("bomb!!!");
         console.log(score);
       } else if (obj.y > 550) {
@@ -353,7 +355,7 @@ function gameScreen() {
       obj.collided = false;
     }
 
-    if (health === 0) {
+    if (health.length === 0) {
       gameOver();
     }
 
@@ -386,7 +388,9 @@ function scoreTracker() {
 
 // Health Tracker
 function healthTracker() {
-  text("Health:" + health, 20, 100);
+  //display the health array as a string, to remove "," from screen
+  let healthString = health.join("");
+  text("Health:" + healthString, 20, 100);
 }
 
 // Screens
