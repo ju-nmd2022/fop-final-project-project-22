@@ -251,6 +251,8 @@ function logo(x, y) {
   rect(x + 124, y, 20, 30);
   ellipse(x + 134, y, 20);
   pop();
+
+  startButton(340, 280);
 }
 
 function startButton(x, y) {
@@ -266,13 +268,13 @@ function startButton(x, y) {
 let isGameActive = true;
 let velocity = 2;
 let score = 0;
-let health = 3;
+let health = "❤️❤️❤️";
 let state = "start";
 
 function menuScreen() {
   noStroke();
   scenery();
-  logo(340, 180);
+  logo(340, 190);
   cat(340, 500);
   /* push(); */
   /* fill(173, 196, 184); */
@@ -283,7 +285,6 @@ function menuScreen() {
   /* pop(); */
   /* textSize(20); */
   /* textStyle(BOLD); */
-  startButton(340, 280);
 }
 
 // Game over screen
@@ -369,22 +370,23 @@ function gameScreen() {
   // fish(190, 300);
   // bomb(500, 300);
 
+  // Move the cat
   if (keyIsDown(37) && isGameActive) {
-    catX = catX - speed;
+    catX = catX - speed; // Left
   } else if (keyIsDown(39)) {
-    catX = catX + speed;
+    catX = catX + speed; // Right
   }
 }
 
 // Score Tracker
 function scoreTracker() {
   textSize(24);
-  text("Score:" + score, 50, 50);
+  text("Score:" + score, 20, 50);
 }
 
 // Health Tracker
 function healthTracker() {
-  text("Health:" + health, 50, 100);
+  text("Health:" + health, 20, 100);
 }
 
 // Screens
