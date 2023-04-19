@@ -294,6 +294,7 @@ function gameOver() {
   text("GAME OVER", 200, 200);
 }
 
+let missedPoint = 500;
 let catX = 340;
 let speed = 10;
 function gameScreen() {
@@ -308,15 +309,18 @@ function gameScreen() {
   // console.log(CharacterRightBound);
   // console.log(characterLeftBound);
 
-  if (frameCount % 90 === 0) {
+  if (isGameActive && frameCount % 90 === 0) {
     fallingObjects();
     // console.log(objects);
   }
 
   for (let i = 0; i < objects.length; i++) {
     let obj = objects[i];
+    // console.log(obj.y);
+
     // check for collision
     if (
+      isGameActive &&
       obj.x < CharacterRightBound &&
       obj.x > characterLeftBound &&
       obj.y > 444 &&
@@ -325,6 +329,7 @@ function gameScreen() {
       //check if the objects are collectable => increase score
       if ((!obj.collided && obj.type === "fish") || obj.type === "treat") {
         console.log("COLLISION!!");
+        console.log(obj.y);
         obj.collided = true;
         //remove the collided object from the array
         objects.splice(i, 1);
@@ -337,22 +342,25 @@ function gameScreen() {
         obj.collided = true;
         //remove the collided object from the array
         objects.splice(i, 1);
-        //increase score by 1
-        score += 0;
+        // remove a heart from the health array
         health.pop();
-        // health -= 1;
+
         console.log("bomb!!!");
         console.log(score);
-      } else if (obj.y > 550) {
+      } else if ((obj.type === "fish" || obj.type === "treat") && obj.y > 505) {
         console.log("MISSED");
         //remove the collided object from the array
         objects.splice(i, 1);
-        //increase score by 1
-        score += 0;
-        health -= 1;
+
+        health.pop();
       }
     } else {
       obj.collided = false;
+    }
+
+    if (obj.y > 505 && (obj.type === "fish" || obj.type === "treat")) {
+      objects.splice(i, 1);
+      health.pop();
     }
 
     if (health.length === 0) {
