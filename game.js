@@ -297,6 +297,9 @@ function gameOver() {
 let missedPoint = 500;
 let catX = 340;
 let speed = 10;
+let velocity1 = 2;
+let acceleration = 1;
+
 function gameScreen() {
   scenery();
   cat(catX, 500);
@@ -312,6 +315,20 @@ function gameScreen() {
   if (isGameActive && frameCount % 90 === 0) {
     fallingObjects();
     // console.log(objects);
+  }
+
+  // increase speed each level
+  if (score >= 5) {
+    acceleration = 1.5;
+  }
+  if (score >= 10) {
+    acceleration = 2;
+  }
+  if (score >= 15) {
+    acceleration = 2.5;
+  }
+  if (score >= 20) {
+    acceleration = 3;
   }
 
   for (let i = 0; i < objects.length; i++) {
@@ -374,6 +391,8 @@ function gameScreen() {
     } else if (obj.type === "treat") {
       treat(obj.x, obj.y);
     }
+
+    obj.velocity = velocity1 * acceleration;
     obj.y += obj.velocity;
   }
   // treat(340, 300);
@@ -383,7 +402,7 @@ function gameScreen() {
   // Move the cat
   if (keyIsDown(37) && isGameActive) {
     catX = catX - speed; // Left
-  } else if (keyIsDown(39)) {
+  } else if (keyIsDown(39) && isGameActive) {
     catX = catX + speed; // Right
   }
 }
@@ -418,17 +437,17 @@ function draw() {
 }
 
 function mouseClicked() {
-  if (mouseX > 320 && mouseX < 408 && mouseY > 275 && mouseY < 290) {
+  if (mouseX > 304 && mouseX < 375 && mouseY > 245 && mouseY < 315) {
     state = "game";
   }
 }
 
 function changeCursor() {
   if (
-    mouseX > 320 &&
-    mouseX < 408 &&
-    mouseY > 275 &&
-    mouseY < 290 &&
+    mouseX > 304 &&
+    mouseX < 375 &&
+    mouseY > 245 &&
+    mouseY < 315 &&
     state === "start"
   ) {
     cursor(HAND);
