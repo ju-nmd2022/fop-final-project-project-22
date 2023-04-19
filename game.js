@@ -290,8 +290,9 @@ function menuScreen() {
 
 // Game over screen
 function gameOver() {
-  isGameActive = false;
+  scenery();
   text("GAME OVER", 200, 200);
+  text("TRY AGAIN", 200, 220);
 }
 
 let missedPoint = 500;
@@ -381,7 +382,8 @@ function gameScreen() {
     }
 
     if (health.length === 0) {
-      gameOver();
+      state = "gameOver";
+      isGameActive = false;
     }
 
     if (obj.type === "fish") {
@@ -428,6 +430,10 @@ function draw() {
 
   if (state === "game") {
     gameScreen();
+  }
+
+  if (state === "gameOver") {
+    gameOver();
   }
 
   changeCursor();
