@@ -264,7 +264,6 @@ function startButton(x, y) {
   pop();
 }
 
-// Menu Screen
 let isGameActive = true;
 let velocity = 2;
 let score = 0;
@@ -272,6 +271,7 @@ let score = 0;
 let health = ["❤️", "❤️", "❤️"];
 let state = "start";
 
+// Menu Screen
 function menuScreen() {
   noStroke();
   scenery();
@@ -437,14 +437,37 @@ function draw() {
   }
 
   changeCursor();
-
   scoreTracker();
   healthTracker();
 }
 
 function mouseClicked() {
-  if (mouseX > 304 && mouseX < 375 && mouseY > 245 && mouseY < 315) {
+  if (
+    state === "start" &&
+    mouseX > 304 &&
+    mouseX < 375 &&
+    mouseY > 245 &&
+    mouseY < 315
+  ) {
     state = "game";
+  } else if (
+    state === "gameOver" &&
+    mouseX > 205 &&
+    mouseX < 328 &&
+    mouseY > 201 &&
+    mouseY < 220
+  ) {
+    objects = [];
+    state = "game";
+    isGameActive = true;
+    velocity = 2;
+    velocity1 = 2;
+    acceleration = 1;
+    catX = 340;
+    speed = 10;
+    health = ["❤️", "❤️", "❤️"];
+    score = 0;
+    missedPoint = 500;
   }
 }
 
@@ -455,6 +478,14 @@ function changeCursor() {
     mouseY > 245 &&
     mouseY < 315 &&
     state === "start"
+  ) {
+    cursor(HAND);
+  } else if (
+    state == "gameOver" &&
+    mouseX > 205 &&
+    mouseX < 328 &&
+    mouseY > 201 &&
+    mouseY < 220
   ) {
     cursor(HAND);
   } else {
