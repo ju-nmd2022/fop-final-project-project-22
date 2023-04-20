@@ -333,19 +333,12 @@ function saveHighscore(score) {
 
   if (highScoreString !== null) {
     scores = JSON.parse(highScoreString);
-
-    // let scoreList = scores
-    //   .map((score, index) => `<li>${index + 1}. ${score}<li>`)
-    //   .join("");
-
-    // let = scoreDisplay = document.getElementById("score-list");
-    // scoreDisplay.innerHTML = scoreList;
   }
 
   if (!scores.includes(score)) {
     scores.push(score);
     scores.sort((a, b) => b - a);
-    scores.splice(10);
+    scores.splice(4);
     localStorage.setItem(highscores, JSON.stringify(scores));
   }
 }
