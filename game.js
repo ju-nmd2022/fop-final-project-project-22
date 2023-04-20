@@ -88,8 +88,8 @@ function treat(x, y) {
   };
 }
 
+// Fish
 function fish(x, y) {
-  // Fish
   push();
   fill(177, 204, 222);
   ellipse(x, y, 45, 30);
@@ -158,6 +158,7 @@ function bomb(x, y) {
   };
 }
 
+// Clouds
 function cloud1(x, y) {
   push();
   fill(255, 255, 255);
@@ -185,6 +186,7 @@ function cloud3(x, y) {
 }
 
 function scenery() {
+  noStroke();
   // Ground
   background(215, 225, 217);
   push();
@@ -198,6 +200,7 @@ function scenery() {
   cloud3(420, 340);
 }
 
+// Logo
 function logo(x, y) {
   // Cloud logo
   ellipse(x, y, 220);
@@ -255,12 +258,46 @@ function logo(x, y) {
   startButton(340, 280);
 }
 
+// Start button
 function startButton(x, y) {
   push();
   fill(173, 196, 184);
   ellipse(x, y, 70);
   fill(255, 255, 255);
   triangle(x - 10, y - 16, x + 16, y, x - 10, y + 16);
+  pop();
+}
+
+function scoreBoard(x, y) {
+  push();
+  fill(255, 255, 255);
+  rect(x, y, 300, 370, 40);
+  fill(255, 240, 247);
+  rect(x + 15, y + 15, 270, 340, 20);
+  fill(255, 255, 255);
+  ellipse(x + 120, y, 110);
+  ellipse(x + 180, y, 100);
+  ellipse(x + 230, y, 60);
+  ellipse(x + 70, y, 60);
+  fill(242, 186, 206);
+  rect(x + 15, y + 15, 270, 80, 20);
+  fill(249, 207, 225);
+  rect(x + 15, y + 80, 270, 70);
+  fill(255, 217, 232);
+  rect(x + 15, y + 150, 270, 70);
+  fill(255, 230, 240);
+  rect(x + 15, y + 220, 270, 70);
+  fill(255, 255, 255);
+  rect(x + 15, y + 78, 270, 5);
+  fill(242, 186, 206);
+  textStyle(BOLD);
+  textSize(26);
+  text("GAME OVER", x + 68, y);
+  fill(255, 255, 255);
+  textSize(20);
+  text("no.", x + 30, y + 68);
+  text("name", x + 110, y + 68);
+  text("score", x + 214, y + 68);
   pop();
 }
 
@@ -277,22 +314,12 @@ function menuScreen() {
   scenery();
   logo(340, 190);
   cat(340, 500);
-  /* push(); */
-  /* fill(173, 196, 184); */
-  /* rect(266, 358, 150, 50, 80); */
-  /* fill(255, 255, 255); */
-  /* let message = "Start game"; */
-  /* text(message, 280, 390); */
-  /* pop(); */
-  /* textSize(20); */
-  /* textStyle(BOLD); */
 }
 
 // Game over screen
 function gameOver() {
   scenery();
-  text("GAME OVER", 200, 200);
-  text("TRY AGAIN", 200, 220);
+  scoreBoard(185, 120);
 }
 
 let missedPoint = 500;
@@ -441,6 +468,7 @@ function draw() {
   healthTracker();
 }
 
+// Mouse clicked > game starts
 function mouseClicked() {
   if (
     state === "start" &&
@@ -471,6 +499,7 @@ function mouseClicked() {
   }
 }
 
+// Changes cursor when hovering over the startbutton
 function changeCursor() {
   if (
     mouseX > 304 &&
