@@ -63,6 +63,121 @@ function cat(x, y) {
   ellipse(x + 30, y + 40, 15);
 }
 
+// Happy cat
+function catHappy(x, y) {
+  noStroke();
+
+  // Ear left
+  triangle(x - 40, y - 30, x - 40, y - 50, x, y - 50);
+
+  // Ear right
+  triangle(x + 40, y - 30, x + 40, y - 50, x, y - 50);
+
+  // Tail
+  rect(x + 30, y + 10, 40, 10, 100);
+
+  // Body
+  ellipse(x, y, 115, 94);
+
+  // Head
+  ellipse(x, y - 3, 106, 108);
+
+  // Nose
+  push();
+  fill(260, 220, 244);
+  triangle(x - 7, y - 37, x + 7, y - 37, x, y - 32);
+  pop();
+
+  // Happy Mouth
+  push();
+  fill(260, 220, 244);
+  ellipse(x, y - 20, 20);
+  pop();
+  push();
+  fill(255, 255, 255);
+  ellipse(x - 6, y - 27, 12);
+  ellipse(x + 6, y - 27, 12);
+  ellipse(x, y - 30, 4);
+  pop();
+
+  // Paw left
+  ellipse(x - 30, y + 40, 15);
+
+  // Paw right
+  ellipse(x + 30, y + 40, 15);
+
+  // Happy Eye left
+  text("❤️", x - 36, y - 30);
+
+  // Happy Eye right
+  text("❤️", x + 4, y - 30);
+}
+
+// Sad cat
+function catSad(x, y) {
+  noStroke();
+
+  // Ear left
+  triangle(x - 40, y - 30, x - 43, y - 48, x - 10, y - 56);
+
+  // Ear right
+  triangle(x + 40, y - 30, x + 44, y - 48, x + 10, y - 56);
+
+  // Tail
+  rect(x + 30, y + 10, 40, 10, 100);
+
+  // Body
+  ellipse(x, y, 115, 94);
+
+  // Head
+  ellipse(x, y - 3, 106, 108);
+
+  // Nose
+  push();
+  fill(260, 220, 244);
+  triangle(x - 7, y - 37, x + 7, y - 37, x, y - 32);
+  pop();
+
+  // Sad Mouth
+  push();
+  fill(260, 220, 244);
+  ellipse(x, y - 16, 20);
+  pop();
+  push();
+  fill(255, 255, 255);
+  rect(x - 10, y - 13, 20, 13);
+  /* ellipse(x, y - 15, 14, 13); */
+  pop();
+
+  // Paw left
+  ellipse(x - 30, y + 40, 15);
+
+  // Paw right
+  ellipse(x + 30, y + 40, 15);
+
+  // Sad Eye left
+  push();
+  fill(142, 191, 134);
+  ellipse(x - 20, y - 36, 20);
+  pop();
+  push();
+  fill(0, 0, 0);
+  ellipse(x - 20, y - 36, 16);
+  pop();
+  /* ellipse(x - 20, y - 28, 20, 12); */
+
+  // Sad Eye right
+  push();
+  fill(142, 191, 134);
+  ellipse(x + 20, y - 36, 20);
+  pop();
+  push();
+  fill(0, 0, 0);
+  ellipse(x + 20, y - 36, 16);
+  pop();
+  /*   ellipse(x + 20, y - 28, 20, 12); */
+}
+
 function treat(x, y) {
   // Cookie
   push();
@@ -195,9 +310,9 @@ function scenery() {
   pop();
 
   // Clouds
-  cloud1(60, 250);
-  cloud2(570, 180);
-  cloud3(420, 340);
+  cloud1(90, 250);
+  cloud2(640, 180);
+  cloud3(520, 340);
 }
 
 // Logo
@@ -255,7 +370,7 @@ function logo(x, y) {
   ellipse(x + 134, y, 20);
   pop();
 
-  startButton(340, 280);
+  startButton(400, 280);
 }
 
 // Start button
@@ -268,6 +383,7 @@ function startButton(x, y) {
   pop();
 }
 
+// Scoreboard
 function scoreBoard(x, y) {
   push();
   fill(255, 255, 255);
@@ -311,17 +427,24 @@ let state = "start";
 function menuScreen() {
   noStroke();
   scenery();
-  logo(340, 190);
-  cat(340, 500);
+  logo(400, 190);
+  cat(400, 500);
 }
 
 // Game over screen
 function gameOver() {
   scenery();
-  scoreBoard(185, 120);
+  scoreBoard(246, 100);
+  push();
+  fill(0, 0, 0);
+  textStyle(BOLD);
+  text("TRY AGAIN!", 590, 280);
+  pop();
+  startButton(660, 340);
+  catSad(130, 370);
 }
 
-let catX = 340;
+let catX = 400;
 let speed = 10;
 let velocity1 = 2;
 let acceleration = 1;
@@ -344,6 +467,7 @@ function saveHighscore(score) {
 }
 // localStorage.clear();
 
+// Game screen
 function gameScreen() {
   scenery();
   cat(catX, 500);
@@ -441,9 +565,6 @@ function gameScreen() {
     obj.velocity = velocity1 * acceleration;
     obj.y += obj.velocity;
   }
-  // treat(340, 300);
-  // fish(190, 300);
-  // bomb(500, 300);
 
   // Move the cat
   if (keyIsDown(37) && isGameActive) {
@@ -455,15 +576,16 @@ function gameScreen() {
 
 // Score Tracker
 function scoreTracker() {
+  textStyle(BOLD);
   textSize(24);
-  text("Score:" + score, 20, 50);
+  text("Score: " + score, 20, 50);
 }
 
 // Health Tracker
 function healthTracker() {
   //display the health array as a string, to remove "," from screen
   let healthString = health.join("");
-  text("Health:" + healthString, 20, 100);
+  text("Health: " + healthString, 20, 100);
 }
 
 // Screens
