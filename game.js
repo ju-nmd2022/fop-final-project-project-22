@@ -267,7 +267,6 @@ function startButton(x, y) {
 let isGameActive = true;
 let velocity = 2;
 let score = 0;
-
 let health = ["❤️", "❤️", "❤️"];
 let state = "start";
 
@@ -295,11 +294,35 @@ function gameOver() {
   text("TRY AGAIN", 200, 220);
 }
 
-let missedPoint = 500;
 let catX = 340;
 let speed = 10;
 let velocity1 = 2;
 let acceleration = 1;
+
+function saveHighscore(score) {
+  const highscores = "scores";
+  const highScoreString = localStorage.getItem(highscores);
+  let scores = [];
+
+  if (highScoreString !== null) {
+    scores = JSON.parse(highScoreString);
+
+    // let scoreList = scores
+    //   .map((score, index) => `<li>${index + 1}. ${score}<li>`)
+    //   .join("");
+
+    // let = scoreDisplay = document.getElementById("score-list");
+    // scoreDisplay.innerHTML = scoreList;
+  }
+
+  if (!scores.includes(score)) {
+    scores.push(score);
+    scores.sort((a, b) => b - a);
+    scores.splice(10);
+    localStorage.setItem(highscores, JSON.stringify(scores));
+  }
+}
+// localStorage.clear();
 
 function gameScreen() {
   scenery();
@@ -384,6 +407,7 @@ function gameScreen() {
     if (health.length === 0) {
       state = "gameOver";
       isGameActive = false;
+      saveHighscore(score);
     }
 
     if (obj.type === "fish") {
@@ -467,7 +491,6 @@ function mouseClicked() {
     speed = 10;
     health = ["❤️", "❤️", "❤️"];
     score = 0;
-    missedPoint = 500;
   }
 }
 
