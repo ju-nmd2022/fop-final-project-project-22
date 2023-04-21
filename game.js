@@ -24,10 +24,10 @@ function cat(x, y) {
   // Eye left
   push();
   fill(0, 0, 0);
-  ellipse(x - 16, y - 44, 8, 5);
+  ellipse(x - 16, y - 44, 8, 6);
 
   // Eye right
-  ellipse(x + 16, y - 44, 8, 5);
+  ellipse(x + 16, y - 44, 8, 6);
   pop();
 
   // Nose
@@ -163,6 +163,8 @@ function catSad(x, y) {
   push();
   fill(0, 0, 0);
   ellipse(x - 20, y - 36, 16);
+  fill(255, 255, 255);
+  ellipse(x - 17, y - 40, 6);
   pop();
   /* ellipse(x - 20, y - 28, 20, 12); */
 
@@ -174,6 +176,8 @@ function catSad(x, y) {
   push();
   fill(0, 0, 0);
   ellipse(x + 20, y - 36, 16);
+  fill(255, 255, 255);
+  ellipse(x + 23, y - 40, 6);
   pop();
   /*   ellipse(x + 20, y - 28, 20, 12); */
 }
