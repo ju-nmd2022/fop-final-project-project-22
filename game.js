@@ -380,7 +380,7 @@ function logo(x, y) {
 // Start button
 function startButton(x, y) {
   push();
-  fill(255, 255, 255);
+  fill(196, 214, 203);
   ellipse(x, y, 80);
   fill(159, 193, 175);
   ellipse(x, y, 70);
@@ -617,10 +617,10 @@ function draw() {
 function mouseClicked() {
   if (
     state === "start" &&
-    mouseX > 365 &&
-    mouseX < 435 &&
-    mouseY > 245 &&
-    mouseY < 315
+    mouseX > 360 &&
+    mouseX < 440 &&
+    mouseY > 240 &&
+    mouseY < 320
   ) {
     state = "game";
   } else if (
@@ -646,10 +646,10 @@ function mouseClicked() {
 // Changes cursor when hovering over the startbutton
 function changeCursor() {
   if (
-    mouseX > 365 &&
-    mouseX < 435 &&
-    mouseY > 245 &&
-    mouseY < 315 &&
+    mouseX > 360 &&
+    mouseX < 440 &&
+    mouseY > 240 &&
+    mouseY < 320 &&
     state === "start"
   ) {
     cursor(HAND);
