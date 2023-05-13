@@ -448,6 +448,12 @@ function gameOver() {
   pop();
   startButton(660, 340);
   catSad(130, 370);
+
+  let highscores = JSON.parse(localStorage.getItem("scores"));
+  displayHighscore(highscores[0], 482,230);
+  displayHighscore(highscores[1], 482,290);
+  displayHighscore(highscores[2], 482,360);
+  displayHighscore(highscores[3], 482,430);
 }
 
 let catX = 400;
@@ -470,6 +476,11 @@ function saveHighscore(score) {
     scores.splice(4);
     localStorage.setItem(highscores, JSON.stringify(scores));
   }
+}
+
+function displayHighscore(scoreElement, x, y) {
+  textSize(25);
+  text(scoreElement, x,y);
 }
 // localStorage.clear();
 
@@ -558,6 +569,8 @@ function gameScreen() {
       state = "gameOver";
       isGameActive = false;
       saveHighscore(score);
+
+
     }
 
     if (obj.type === "fish") {
