@@ -64,57 +64,107 @@ function cat(x, y) {
 }
 
 // Happy cat
-function catHappy(x, y) {
-  noStroke();
+// function catHappy(x, y) {
+//   noStroke();
 
-  // Ear left
-  triangle(x - 40, y - 30, x - 40, y - 50, x, y - 50);
+//   // Ear left
+//   triangle(x - 40, y - 30, x - 40, y - 50, x, y - 50);
 
-  // Ear right
-  triangle(x + 40, y - 30, x + 40, y - 50, x, y - 50);
+//   // Ear right
+//   triangle(x + 40, y - 30, x + 40, y - 50, x, y - 50);
 
-  // Tail
-  rect(x + 30, y + 10, 40, 10, 100);
+//   // Tail
+//   rect(x + 30, y + 10, 40, 10, 100);
 
-  // Body
-  ellipse(x, y, 115, 94);
+//   // Body
+//   ellipse(x, y, 115, 94);
 
-  // Head
-  ellipse(x, y - 3, 106, 108);
+//   // Head
+//   ellipse(x, y - 3, 106, 108);
 
-  // Nose
-  push();
-  fill(260, 220, 244);
-  triangle(x - 7, y - 37, x + 7, y - 37, x, y - 32);
-  pop();
+//   // Nose
+//   push();
+//   fill(260, 220, 244);
+//   triangle(x - 7, y - 37, x + 7, y - 37, x, y - 32);
+//   pop();
 
-  // Happy Mouth
-  push();
-  fill(260, 220, 244);
-  ellipse(x, y - 20, 20);
-  pop();
-  push();
-  fill(255, 255, 255);
-  ellipse(x - 6, y - 27, 12);
-  ellipse(x + 6, y - 27, 12);
-  ellipse(x, y - 30, 4);
-  pop();
+//   // Happy Mouth
+//   push();
+//   fill(260, 220, 244);
+//   ellipse(x, y - 20, 20);
+//   pop();
+//   push();
+//   fill(255, 255, 255);
+//   ellipse(x - 6, y - 27, 12);
+//   ellipse(x + 6, y - 27, 12);
+//   ellipse(x, y - 30, 4);
+//   pop();
 
-  // Paw left
-  ellipse(x - 30, y + 40, 15);
+//   // Paw left
+//   ellipse(x - 30, y + 40, 15);
 
-  // Paw right
-  ellipse(x + 30, y + 40, 15);
+//   // Paw right
+//   ellipse(x + 30, y + 40, 15);
 
-  // Happy Eye left
-  text("❤️", x - 36, y - 30);
+//   // Happy Eye left
+//   text("❤️", x - 36, y - 30);
 
-  // Happy Eye right
-  text("❤️", x + 4, y - 30);
-}
+//   // Happy Eye right
+//   text("❤️", x + 4, y - 30);
+// }
 
 // Sad cat
-function catSad(x, y) {
+function catSad(x, y, catHappy ) {
+  if (catHappy) {
+    noStroke();
+
+    // Ear left
+    triangle(x - 40, y - 30, x - 40, y - 50, x, y - 50);
+  
+    // Ear right
+    triangle(x + 40, y - 30, x + 40, y - 50, x, y - 50);
+  
+    // Tail
+    rect(x + 30, y + 10, 40, 10, 100);
+  
+    // Body
+    ellipse(x, y, 115, 94);
+  
+    // Head
+    ellipse(x, y - 3, 106, 108);
+  
+    // Nose
+    push();
+    fill(260, 220, 244);
+    triangle(x - 7, y - 37, x + 7, y - 37, x, y - 32);
+    pop();
+  
+    // Happy Mouth
+    push();
+    fill(260, 220, 244);
+    ellipse(x, y - 20, 20);
+    pop();
+    push();
+    fill(255, 255, 255);
+    ellipse(x - 6, y - 27, 12);
+    ellipse(x + 6, y - 27, 12);
+    ellipse(x, y - 30, 4);
+    pop();
+  
+    // Paw left
+    ellipse(x - 30, y + 40, 15);
+  
+    // Paw right
+    ellipse(x + 30, y + 40, 15);
+  
+    // Happy Eye left
+    text("❤️", x - 36, y - 30);
+  
+    // Happy Eye right
+    text("❤️", x + 4, y - 30);
+  }
+  else {
+
   noStroke();
 
   // Ear left
@@ -180,6 +230,7 @@ function catSad(x, y) {
   ellipse(x + 23, y - 40, 6);
   pop();
   /*   ellipse(x + 20, y - 28, 20, 12); */
+}
 }
 
 function treat(x, y) {
@@ -434,7 +485,7 @@ function menuScreen() {
   noStroke();
   scenery();
   logo(400, 190);
-  cat(400, 500);
+  catSad(400, 500, false);
 }
 
 // Game over screen
@@ -447,7 +498,7 @@ function gameOver() {
   text("TRY AGAIN!", 590, 230);
   pop();
   startButton(660, 290);
-  catSad(130, 370);
+  catSad(130, 370, false);
   text("Enter name:", 590, 390);
 
   // retrieve higshcores from the array in local storage
@@ -493,7 +544,7 @@ function displayHighscore(scoreElement, index, x, y, indexVariation, indexVariat
 // Game screen
 function gameScreen() {
   scenery();
-  cat(catX, 500);
+  catSad(catX, 500, false);
   // console.log(catX);
   //retrieve characters width interval based on x-position in order to compare with objects
   let characterX = catX;
@@ -544,6 +595,8 @@ function gameScreen() {
         //increase score by 1
         score += 1;
         console.log(score);
+
+        catSad(catX, 500, true);
         //check if the objects are NOT collectable => decrease health
       } else if (!obj.collided && obj.type === "bomb") {
         console.log("COLLISION!!");
