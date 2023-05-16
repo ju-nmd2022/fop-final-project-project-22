@@ -541,6 +541,11 @@ function displayHighscore(scoreElement, index, x, y, indexVariation, indexVariat
 }
 // localStorage.clear();
 
+
+let isHappy = false;
+let happyTimer = 0;
+
+
 // Game screen
 function gameScreen() {
   scenery();
@@ -587,29 +592,23 @@ function gameScreen() {
     ) {
       //check if the objects are collectable => increase score
       if ((!obj.collided && obj.type === "fish") || obj.type === "treat") {
-        console.log("COLLISION!!");
         console.log(obj.y);
         obj.collided = true;
         //remove the collided object from the array
         objects.splice(i, 1);
         //increase score by 1
         score += 1;
-        console.log(score);
-
-        catSad(catX, 500, true);
+        //switch to happy cat for certain amount of time when collecting
+        isHappy = true;
+        happyTimer = 15;
         //check if the objects are NOT collectable => decrease health
       } else if (!obj.collided && obj.type === "bomb") {
-        console.log("COLLISION!!");
         obj.collided = true;
         //remove the collided object from the array
         objects.splice(i, 1);
         // remove a heart from the health array
         health.pop();
-
-        console.log("bomb!!!");
-        console.log(score);
       } else if ((obj.type === "fish" || obj.type === "treat") && obj.y > 505) {
-        console.log("MISSED");
         //remove the collided object from the array
         objects.splice(i, 1);
 
@@ -681,6 +680,22 @@ function draw() {
   changeCursor();
   scoreTracker();
   healthTracker();
+
+  if (isGameActive) {
+  if (isHappy) {
+    // Draw the happy cat
+    catSad(catX, 500, true);
+  } else {
+    // Draw the sad cat
+    catSad(catX, 500, false);
+  }
+
+  if (happyTimer > 0) {
+    happyTimer--;
+  } else {
+    isHappy = false; // Reset to sad state when the timer expires
+  }
+}
 }
 
 // Mouse clicked > game starts
