@@ -507,9 +507,16 @@ function gameOver() {
   // displays highscores along with its position
   for (let i = 0; i < highscores.length; i++) {
     displayHighscore(highscores[i], i, 482, 225 + i * 70, 202, 128, "player");
-  }
-}
+  //   let playerName = highscores[i].playerName;
 
+  //   if (!playerName) {
+  //     playerName = prompt("Enter name:");
+  //     highscores[i].playerName = playerName || "player";
+  //   }
+
+  // displayHighscore(highscores[i], i, 482, 225 + i * 70, 202, 128, playerName|| "player");
+}
+}
 
 let catX = 400;
 let speed = 10;
@@ -545,42 +552,48 @@ function displayHighscore(scoreElement, index, x, y, indexVariation, indexVariat
 let isHappy = false;
 let happyTimer = 0;
 
-
 // Game screen
 function gameScreen() {
   scenery();
   catSad(catX, 500, false);
-  // console.log(catX);
   //retrieve characters width interval based on x-position in order to compare with objects
   let characterX = catX;
   let CharacterWidth = 115;
   let characterLeftBound = characterX - CharacterWidth / 2;
   let CharacterRightBound = characterX + CharacterWidth / 2;
-  // console.log(CharacterRightBound);
-  // console.log(characterLeftBound);
 
+  // increase acceleration and objects each level
   if (isGameActive && frameCount % 90 === 0) {
-    fallingObjects();
-    // console.log(objects);
+    if (score >= 100) {
+      console.log("LAST LEVEL");
+      fallingObjects(5);
+      acceleration = 2;
+    } else if (score >= 60) {
+      console.log("FIFTH LEVEL");
+      fallingObjects(10);
+      acceleration = 1.8;
+    } else if (score >= 40) {
+      console.log("FORTH LEVEL");
+      fallingObjects(50);
+      acceleration = 1.6;
+    } else if (score>=25) {
+      console.log("THIRD LEVEL");
+      fallingObjects(500);
+      acceleration = 1.2;
+    } else if (score>= 15) {
+      console.log("SECOND LEVEL");
+      fallingObjects(1000);
+      acceleration = 1.0;
+    } else {
+      console.log("FIRST LEVEL");
+      fallingObjects(2000);
+      acceleration = 1.0;
+    }
   }
 
-  // increase speed each level
-  if (score >= 5) {
-    acceleration = 1.5;
-  }
-  if (score >= 10) {
-    acceleration = 2;
-  }
-  if (score >= 15) {
-    acceleration = 2.5;
-  }
-  if (score >= 20) {
-    acceleration = 3;
-  }
 
   for (let i = 0; i < objects.length; i++) {
     let obj = objects[i];
-    // console.log(obj.y);
 
     // check for collision
     if (
@@ -640,6 +653,9 @@ function gameScreen() {
     obj.velocity = velocity1 * acceleration;
     obj.y += obj.velocity;
   }
+
+  fallingObjects(timeVariable);
+  
 
   // Move the cat
   if (keyIsDown(37) && isGameActive) {
@@ -751,16 +767,15 @@ function changeCursor() {
   }
 }
 
-// gameScreen();
-// scenery();
-/* cat(300, 500); */
-/* treat(300, 300); */
-/* fish(150, 300); */
-/* bomb(450, 300); */
-
 let objects = [];
+let lastObjectSpawned = 0;
+let timeVariable = 1000;
 
-function fallingObjects() {
+function fallingObjects(timeVariable) {
+  let currentTime = millis();
+  
+  if (currentTime - lastObjectSpawned > timeVariable) {
+
   let randomWidth = Math.floor(random(width));
   let heightPosition = -10;
   let newObject;
@@ -780,7 +795,7 @@ function fallingObjects() {
       x: randomWidth,
       y: heightPosition,
       velocity: 2,
-    };
+    };      
   } else {
     newObject = {
       type: "treat",
@@ -791,4 +806,7 @@ function fallingObjects() {
   }
 
   objects.push(newObject);
-}
+  lastObjectSpawned = currentTime;
+
+  
+}}
