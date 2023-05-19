@@ -1,5 +1,6 @@
 function setup() {
   createCanvas(800, 600);
+  frameRate(30);
 }
 
 // Cat (game character)
@@ -339,6 +340,12 @@ function powerUp(x, y) {
   triangle(x, y - 2, x + 10, y - 1, x - 5, y + 14);
   rect(x - 8, y - 2, 8, 5);
   pop();
+
+  return {
+    type:"powerUp",
+    x: x,
+    y: y,
+  };
 }
 
 // Clouds
@@ -486,7 +493,7 @@ function scoreBoard(x, y) {
   text("score", x + 214, y + 68);
   pop();
 }
-
+  
 let isGameActive = true;
 let velocity = 2;
 let score = 0;
@@ -586,51 +593,45 @@ function gameScreen() {
   // increase acceleration and objects each level
   if (isGameActive) {
     // fallingObjectsfixedrate();
-    if (score >= 100) {
-      console.log("LAST LEVEL");
-      fallingObjects(5);
-      acceleration = 2;
+    if (score >= 70) {
+      console.log("NINTH LEVEL");
+      fallingObjects(800);
+      acceleration = 2.0;
     } else if (score >= 60) {
-      console.log("FIFTH LEVEL");
-      fallingObjects(10);
-      acceleration = 1.8;
-    } else if (score >= 40) {
-      console.log("FORTH LEVEL");
-<<<<<<< HEAD
+      console.log("EIGTH LEVEL");
       fallingObjects(1000);
-      acceleration = 1.0;
-    } else if (score>=25) {
-      console.log("THIRD LEVEL");
-      fallingObjects(500);
-      acceleration = 1.0;
-  
-    } else if (score>= 5) {
-=======
-      fallingObjects(50);
-      acceleration = 1.6;
+      acceleration = 2.0;
+    } else if (score >= 50) {
+      console.log("SEVENTH LEVEL");
+      fallingObjects(1200);
+      acceleration = 1.9;
+    } else if (score >= 40) {
+      console.log("SIXTH LEVEL");
+      fallingObjects(1200);
+      acceleration = 1.8;
     } else if (score >= 25) {
-      console.log("THIRD LEVEL");
-      fallingObjects(500);
-      acceleration = 1.2;
+      console.log("FIFTH LEVEL");
+      fallingObjects(1500);
+      acceleration = 1.7; 
     } else if (score >= 15) {
->>>>>>> 4a1734c3011d0f067378c281a15424da747febbc
+      console.log("FORTH LEVEL");
+      fallingObjects(2000);
+      acceleration = 1.6;
+    } else if (score >= 10) {
+      console.log("THIRD LEVEL");
+      fallingObjects(2500);
+      acceleration = 1.5;
+    } else if (score >= 3) {
       console.log("SECOND LEVEL");
-      fallingObjects(1800);
-      acceleration = 1.0; 
-    } else { 
+      fallingObjects(3000);
+      acceleration = 1.4;   
+    } else {    
       console.log("FIRST LEVEL");
-      fallingObjects(8000);
-      acceleration = 1.0;
-      // fallingObjectsfixedrate();
+      fallingObjects(5000);
+      acceleration = 1.3;
     }
-<<<<<<< HEAD
-  }   
+  } 
 
-  
-=======
-  }
-
->>>>>>> 4a1734c3011d0f067378c281a15424da747febbc
   for (let i = 0; i < objects.length; i++) {
     let obj = objects[i];
 
@@ -693,13 +694,8 @@ function gameScreen() {
     obj.y += obj.velocity;
   }
 
-<<<<<<< HEAD
-  // fallingObjects(timeVariable);
-  
-=======
-  fallingObjects(timeVariable);
->>>>>>> 4a1734c3011d0f067378c281a15424da747febbc
-
+ 
+ 
   // Move the cat
   if (keyIsDown(37) && isGameActive) {
     catX = catX - speed; // Left
@@ -724,10 +720,11 @@ function healthTracker() {
 
 // Screens
 function draw() {
+
   if (state === "start") {
     menuScreen();
   }
-
+  
   if (state === "game") {
     gameScreen();
   }
@@ -849,50 +846,4 @@ function fallingObjects(timeVariable) {
 
     objects.push(newObject);
     lastObjectSpawned = currentTime;
-  }
-<<<<<<< HEAD
-
-  objects.push(newObject);
-  lastObjectSpawned = currentTime;
-
-  
-}}
-
-function fallingObjectsfixedrate() {
-
-  let randomWidth = Math.floor(random(width));
-  let heightPosition = -10;
-  let newObject;
-
-  let randomNumber = Math.floor(Math.random() * 101);
-
-  if (randomNumber < 40) {
-    newObject = {
-      type: "fish",
-      x: randomWidth,
-      y: heightPosition,
-      velocity: 2,
-    };
-  } else if (randomNumber < 60) {
-    newObject = {
-      type: "bomb",
-      x: randomWidth,
-      y: heightPosition,
-      velocity: 2,
-    };      
-  } else {
-    newObject = {
-      type: "treat",
-      x: randomWidth,
-      y: heightPosition,
-      velocity: 2,
-    };
-  }
-
-  objects.push(newObject);
-
-
-  
-=======
->>>>>>> 4a1734c3011d0f067378c281a15424da747febbc
-}
+  }}
