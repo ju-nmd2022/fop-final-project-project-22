@@ -561,9 +561,10 @@ function gameScreen() {
   let CharacterWidth = 115;
   let characterLeftBound = characterX - CharacterWidth / 2;
   let CharacterRightBound = characterX + CharacterWidth / 2;
-
+ 
   // increase acceleration and objects each level
-  if (isGameActive && frameCount % 90 === 0) {
+  if (isGameActive) {
+    // fallingObjectsfixedrate();
     if (score >= 100) {
       console.log("LAST LEVEL");
       fallingObjects(5);
@@ -574,24 +575,26 @@ function gameScreen() {
       acceleration = 1.8;
     } else if (score >= 40) {
       console.log("FORTH LEVEL");
-      fallingObjects(50);
-      acceleration = 1.6;
+      fallingObjects(1000);
+      acceleration = 1.0;
     } else if (score>=25) {
       console.log("THIRD LEVEL");
       fallingObjects(500);
-      acceleration = 1.2;
-    } else if (score>= 15) {
+      acceleration = 1.0;
+  
+    } else if (score>= 5) {
       console.log("SECOND LEVEL");
-      fallingObjects(1000);
-      acceleration = 1.0;
-    } else {
+      fallingObjects(1800);
+      acceleration = 1.0; 
+    } else { 
       console.log("FIRST LEVEL");
-      fallingObjects(2000);
+      fallingObjects(8000);
       acceleration = 1.0;
+      // fallingObjectsfixedrate();
     }
-  }
+  }   
 
-
+  
   for (let i = 0; i < objects.length; i++) {
     let obj = objects[i];
 
@@ -654,7 +657,7 @@ function gameScreen() {
     obj.y += obj.velocity;
   }
 
-  fallingObjects(timeVariable);
+  // fallingObjects(timeVariable);
   
 
   // Move the cat
@@ -728,9 +731,9 @@ function mouseClicked() {
     state === "gameOver" &&
     mouseX > 620 &&
     mouseX < 700 &&
-    mouseY > 300 &&
-    mouseY < 380
-  ) {
+    mouseY > 250 &&
+    mouseY < 330
+  ) {  
     objects = [];
     state = "game";
     isGameActive = true;
@@ -758,8 +761,8 @@ function changeCursor() {
     state == "gameOver" &&
     mouseX > 620 &&
     mouseX < 700 &&
-    mouseY > 300 &&
-    mouseY < 380
+    mouseY > 250 && 
+    mouseY < 330 
   ) {
     cursor(HAND);
   } else {
@@ -810,3 +813,40 @@ function fallingObjects(timeVariable) {
 
   
 }}
+
+function fallingObjectsfixedrate() {
+
+  let randomWidth = Math.floor(random(width));
+  let heightPosition = -10;
+  let newObject;
+
+  let randomNumber = Math.floor(Math.random() * 101);
+
+  if (randomNumber < 40) {
+    newObject = {
+      type: "fish",
+      x: randomWidth,
+      y: heightPosition,
+      velocity: 2,
+    };
+  } else if (randomNumber < 60) {
+    newObject = {
+      type: "bomb",
+      x: randomWidth,
+      y: heightPosition,
+      velocity: 2,
+    };      
+  } else {
+    newObject = {
+      type: "treat",
+      x: randomWidth,
+      y: heightPosition,
+      velocity: 2,
+    };
+  }
+
+  objects.push(newObject);
+
+
+  
+}
