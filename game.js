@@ -540,8 +540,8 @@ function gameOver() {
 }
 
 let catX = 400;
-let speed = 10;
-let velocity1 = 2;
+let speed = 15 ;
+let velocity1 = 2;                    
 let acceleration = 1;
 
 function saveHighscore(score) {
@@ -593,42 +593,46 @@ function gameScreen() {
   // increase acceleration and objects each level
   if (isGameActive) {
     // fallingObjectsfixedrate();
-    if (score >= 70) {
-      console.log("NINTH LEVEL");
+    if (score >= 90) {
+      console.log("LEVEL 10");
       fallingObjects(800);
-      acceleration = 2.0;
-    } else if (score >= 60) {
-      console.log("EIGTH LEVEL");
+      acceleration = 2.9;
+    } else if (score >= 70) {
+      console.log("LEVEL 9");
       fallingObjects(1000);
-      acceleration = 2.0;
+      acceleration = 2.9;
+    } else if (score >= 60) {
+      console.log("LEVEL 8");
+      fallingObjects(1200);
+      acceleration = 2.8;
     } else if (score >= 50) {
-      console.log("SEVENTH LEVEL");
-      fallingObjects(1200);
-      acceleration = 1.9;
+      console.log("LEVEL 7");
+      fallingObjects(1300);
+      acceleration = 2.8;
     } else if (score >= 40) {
-      console.log("SIXTH LEVEL");
-      fallingObjects(1200);
-      acceleration = 1.8;
+      console.log("LEVEL 6");
+      fallingObjects(1400);
+      acceleration = 2.8;
     } else if (score >= 25) {
-      console.log("FIFTH LEVEL");
+      console.log("LEVEL 5");
       fallingObjects(1500);
-      acceleration = 1.7; 
+      acceleration = 2.5; 
     } else if (score >= 15) {
-      console.log("FORTH LEVEL");
+      console.log("LEVEL 4");
       fallingObjects(2000);
-      acceleration = 1.6;
+      acceleration = 2.5;
     } else if (score >= 10) {
-      console.log("THIRD LEVEL");
+      console.log("LEVEL 3");
       fallingObjects(2500);
-      acceleration = 1.5;
+      acceleration = 2.5;
     } else if (score >= 3) {
-      console.log("SECOND LEVEL");
-      fallingObjects(3000);
-      acceleration = 1.4;   
+      console.log("LEVEL 2");
+      fallingObjects(2500);
+      acceleration = 2.4;   
     } else {    
-      console.log("FIRST LEVEL");
+      console.log("LEVEL 1");
       fallingObjects(5000);
-      acceleration = 1.3;
+      acceleration = 2.4;
     }
   } 
 
@@ -778,7 +782,7 @@ function mouseClicked() {
     velocity1 = 2;
     acceleration = 1;
     catX = 340;
-    speed = 10;
+    speed = 15;
     health = ["❤️", "❤️", "❤️"];
     score = 0;
   }
