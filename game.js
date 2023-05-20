@@ -4,65 +4,65 @@ function setup() {
 }
 
 // Cat (game character)
-function cat(x, y) {
-  noStroke();
+// function cat(x, y) {
+//   noStroke();
 
-  // Ear left
-  triangle(x - 40, y - 30, x - 40, y - 50, x, y - 50);
+//   // Ear left
+//   triangle(x - 40, y - 30, x - 40, y - 50, x, y - 50);
 
-  // Ear right
-  triangle(x + 40, y - 30, x + 40, y - 50, x, y - 50);
+//   // Ear right
+//   triangle(x + 40, y - 30, x + 40, y - 50, x, y - 50);
 
-  // Tail
-  rect(x + 30, y + 10, 40, 10, 100);
+//   // Tail
+//   rect(x + 30, y + 10, 40, 10, 100);
 
-  // Body
-  ellipse(x, y, 115, 94);
+//   // Body
+//   ellipse(x, y, 115, 94);
 
-  // Head
-  ellipse(x, y - 3, 106, 108);
+//   // Head
+//   ellipse(x, y - 3, 106, 108);
 
-  // Eye left
-  push();
-  fill(0, 0, 0);
-  ellipse(x - 16, y - 44, 8, 6);
+//   // Eye left
+//   push();
+//   fill(0, 0, 0);
+//   ellipse(x - 16, y - 44, 8, 6);
 
-  // Eye right
-  ellipse(x + 16, y - 44, 8, 6);
-  pop();
+//   // Eye right
+//   ellipse(x + 16, y - 44, 8, 6);
+//   pop();
 
-  // Nose
-  push();
-  fill(260, 220, 244);
-  triangle(x - 7, y - 44, x + 7, y - 44, x, y - 39);
+//   // Nose
+//   push();
+//   fill(260, 220, 244);
+//   triangle(x - 7, y - 44, x + 7, y - 44, x, y - 39);
 
-  // Mouth
-  triangle(x - 18, y - 29, x, y - 36, x + 18, y - 29);
-  ellipse(x, y - 20, 50, 26);
-  pop();
+//   // Mouth
+//   triangle(x - 18, y - 29, x, y - 36, x + 18, y - 29);
+//   ellipse(x, y - 20, 50, 26);
+//   pop();
 
-  push();
-  translate(x - 10, y - 34);
-  rotate(-0.3);
-  ellipse(0, 0, 22, 10);
-  pop();
+//   push();
+//   translate(x - 10, y - 34);
+//   rotate(-0.3);
+//   ellipse(0, 0, 22, 10);
+//   pop();
 
-  push();
-  translate(x + 10, y - 34);
-  rotate(0.3);
-  ellipse(0, 0, 22, 10);
-  pop();
+//   push();
+//   translate(x + 10, y - 34);
+//   rotate(0.3);
+//   ellipse(0, 0, 22, 10);
+//   pop();
 
-  // Fangs
-  triangle(x - 18, y - 30, x - 12, y - 25, x - 9, y - 30);
-  triangle(x + 18, y - 30, x + 12, y - 25, x + 9, y - 30);
+//   // Fangs
+//   triangle(x - 18, y - 30, x - 12, y - 25, x - 9, y - 30);
+//   triangle(x + 18, y - 30, x + 12, y - 25, x + 9, y - 30);
 
-  // Paw left
-  ellipse(x - 30, y + 40, 15);
+//   // Paw left
+//   ellipse(x - 30, y + 40, 15);
 
-  // Paw right
-  ellipse(x + 30, y + 40, 15);
-}
+//   // Paw right
+//   ellipse(x + 30, y + 40, 15);
+// }
 
 // Happy cat
 // function catHappy(x, y) {
@@ -115,7 +115,7 @@ function cat(x, y) {
 // }
 
 // Sad cat
-function catSad(x, y, catHappy) {
+function catSad(x, y, catHappy, catSad) {
   if (catHappy) {
     noStroke();
 
@@ -163,7 +163,7 @@ function catSad(x, y, catHappy) {
 
     // Happy Eye right
     text("❤️", x + 4, y - 30);
-  } else {
+  } else if (catSad) {
     noStroke();
 
     // Ear left
@@ -229,9 +229,69 @@ function catSad(x, y, catHappy) {
     ellipse(x + 23, y - 40, 6);
     pop();
     /*   ellipse(x + 20, y - 28, 20, 12); */
-  }
-}
 
+  }
+  
+  else {
+    noStroke();
+
+  // Ear left
+  triangle(x - 40, y - 30, x - 40, y - 50, x, y - 50);
+
+  // Ear right
+  triangle(x + 40, y - 30, x + 40, y - 50, x, y - 50);
+
+  // Tail
+  rect(x + 30, y + 10, 40, 10, 100);
+
+  // Body
+  ellipse(x, y, 115, 94);
+
+  // Head
+  ellipse(x, y - 3, 106, 108);
+
+  // Eye left
+  push();
+  fill(0, 0, 0);
+  ellipse(x - 16, y - 44, 8, 6);
+
+  // Eye right
+  ellipse(x + 16, y - 44, 8, 6);
+  pop();
+
+  // Nose
+  push();
+  fill(260, 220, 244);
+  triangle(x - 7, y - 44, x + 7, y - 44, x, y - 39);
+
+  // Mouth
+  triangle(x - 18, y - 29, x, y - 36, x + 18, y - 29);
+  ellipse(x, y - 20, 50, 26);
+  pop();
+
+  push();
+  translate(x - 10, y - 34);
+  rotate(-0.3);
+  ellipse(0, 0, 22, 10);
+  pop();
+
+  push();
+  translate(x + 10, y - 34);
+  rotate(0.3);
+  ellipse(0, 0, 22, 10);
+  pop();
+
+  // Fangs
+  triangle(x - 18, y - 30, x - 12, y - 25, x - 9, y - 30);
+  triangle(x + 18, y - 30, x + 12, y - 25, x + 9, y - 30);
+
+  // Paw left
+  ellipse(x - 30, y + 40, 15);
+
+  // Paw right
+  ellipse(x + 30, y + 40, 15);
+}
+}
 function treat(x, y) {
   // Cookie
   push();
@@ -505,7 +565,7 @@ function menuScreen() {
   noStroke();
   scenery();
   logo(400, 190);
-  catSad(400, 500, false);
+  catSad(400, 500, false, false);
   powerUp(200, 200);
 }
 
@@ -519,7 +579,7 @@ function gameOver() {
   text("TRY AGAIN!", 590, 230);
   pop();
   startButton(660, 290);
-  catSad(130, 370, false);
+  catSad(130, 370, false, true);
   text("Enter name:", 590, 390);
 
   // retrieve higshcores from the array in local storage
@@ -577,13 +637,15 @@ function displayHighscore(
 }
 // localStorage.clear();
 
+let isSad = false;
 let isHappy = false;
 let happyTimer = 0;
+let sadTimer = 0;
 
 // Game screen
 function gameScreen() {
   scenery();
-  catSad(catX, 500, false);
+  catSad(catX, 500, false, false);
   //retrieve characters width interval based on x-position in order to compare with objects
   let characterX = catX;
   let CharacterWidth = 115;
@@ -607,7 +669,7 @@ function gameScreen() {
       acceleration = 2.8;
     } else if (score >= 50) {
       console.log("LEVEL 7");
-      fallingObjects(1300);
+      fallingObjects(1400);
       acceleration = 2.8;
     } else if (score >= 40) {
       console.log("LEVEL 6");
@@ -623,18 +685,18 @@ function gameScreen() {
       acceleration = 2.5;
     } else if (score >= 10) {
       console.log("LEVEL 3");
-      fallingObjects(2500);
+      fallingObjects(2000);
       acceleration = 2.5;
     } else if (score >= 3) {
       console.log("LEVEL 2");
-      fallingObjects(2500);
+      fallingObjects(2000);
       acceleration = 2.4;   
     } else {    
       console.log("LEVEL 1");
-      fallingObjects(5000);
+      fallingObjects(2000);
       acceleration = 2.4;
     }
-  } 
+  }
 
   for (let i = 0; i < objects.length; i++) {
     let obj = objects[i];
@@ -660,6 +722,8 @@ function gameScreen() {
         happyTimer = 15;
         //check if the objects are NOT collectable => decrease health
       } else if (!obj.collided && obj.type === "bomb") {
+        isSad = true;
+        sadTimer = 15;
         obj.collided = true;
         //remove the collided object from the array
         objects.splice(i, 1);
@@ -744,16 +808,22 @@ function draw() {
   if (isGameActive) {
     if (isHappy) {
       // Draw the happy cat
-      catSad(catX, 500, true);
+      catSad(catX, 500, true, false);
+    } else if (isSad) {
+      // Draw the sad cat
+      catSad(catX, 500, false, true);
     } else {
       // Draw the sad cat
-      catSad(catX, 500, false);
+      catSad(catX, 500, false, false);
     }
 
-    if (happyTimer > 0) {
+    if (happyTimer > 0 || sadTimer > 0) {
       happyTimer--;
+      sadTimer--;
     } else {
       isHappy = false; // Reset to sad state when the timer expires
+      isSad = false;
+      
     }
   }
 }
