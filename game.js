@@ -402,7 +402,7 @@ function powerUp(x, y) {
   pop();
 
   return {
-    type:"powerUp",
+    type: "powerUp",
     x: x,
     y: y,
   };
@@ -553,7 +553,7 @@ function scoreBoard(x, y) {
   text("score", x + 214, y + 68);
   pop();
 }
-  
+
 let isGameActive = true;
 let velocity = 2;
 let score = 0;
@@ -600,8 +600,8 @@ function gameOver() {
 }
 
 let catX = 400;
-let speed = 15 ;
-let velocity1 = 2;                    
+let speed = 15;
+let velocity1 = 2;
 let acceleration = 1;
 
 function saveHighscore(score) {
@@ -651,7 +651,7 @@ function gameScreen() {
   let CharacterWidth = 115;
   let characterLeftBound = characterX - CharacterWidth / 2;
   let CharacterRightBound = characterX + CharacterWidth / 2;
- 
+
   // increase acceleration and objects each level
   if (isGameActive) {
     // fallingObjectsfixedrate();
@@ -678,7 +678,7 @@ function gameScreen() {
     } else if (score >= 25) {
       console.log("LEVEL 5");
       fallingObjects(1500);
-      acceleration = 2.5; 
+      acceleration = 2.5;
     } else if (score >= 15) {
       console.log("LEVEL 4");
       fallingObjects(2000);
@@ -689,9 +689,9 @@ function gameScreen() {
       acceleration = 2.5;
     } else if (score >= 3) {
       console.log("LEVEL 2");
-      fallingObjects(2000);
-      acceleration = 2.4;   
-    } else {    
+      fallingObjects(2500);
+      acceleration = 2.4;
+    } else {
       console.log("LEVEL 1");
       fallingObjects(2000);
       acceleration = 2.4;
@@ -762,8 +762,6 @@ function gameScreen() {
     obj.y += obj.velocity;
   }
 
- 
- 
   // Move the cat
   if (keyIsDown(37) && isGameActive) {
     catX = catX - speed; // Left
@@ -788,11 +786,10 @@ function healthTracker() {
 
 // Screens
 function draw() {
-
   if (state === "start") {
     menuScreen();
   }
-  
+
   if (state === "game") {
     gameScreen();
   }
@@ -844,7 +841,7 @@ function mouseClicked() {
     mouseX < 700 &&
     mouseY > 250 &&
     mouseY < 330
-  ) {  
+  ) {
     objects = [];
     state = "game";
     isGameActive = true;
@@ -872,8 +869,8 @@ function changeCursor() {
     state == "gameOver" &&
     mouseX > 620 &&
     mouseX < 700 &&
-    mouseY > 250 && 
-    mouseY < 330 
+    mouseY > 250 &&
+    mouseY < 330
   ) {
     cursor(HAND);
   } else {
@@ -920,4 +917,5 @@ function fallingObjects(timeVariable) {
 
     objects.push(newObject);
     lastObjectSpawned = currentTime;
-  }}
+  }
+}
