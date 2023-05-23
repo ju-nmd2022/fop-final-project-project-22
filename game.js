@@ -515,10 +515,10 @@ function displayHighscore(
   text(playerName, x - indexVariation2, y);
 }
 // localStorage.clear();
-
+ 
 function fallingSpeedObject() {
   if (score >= 3 && powerObject === null) {
-    let Xposition = Math.floor(random(width));
+    let Xposition = Math.floor(random(50, 750));
     let Yposition = -10;
     let newPowerObject;
     newPowerObject = {
@@ -578,20 +578,33 @@ function gameScreen() {
       console.log("LEVEL 4");
       fallingObjects(1400);
       acceleration = 2.9;
-    } else if (score >= 10) {
+    } else if (score > 10) {
       console.log("LEVEL 3");
       fallingObjects(1600);
       acceleration = 2.9;
-    } else if (score >= 3 && powerObject === null) {
+    } else if (score === 10  && powerObject === null) {
+      console.log("LEVEL 3");
+      fallingObjects(1600);
+      acceleration = 2.9;
+      fallingSpeedObject();
+    } else if (score > 3) {
       console.log("LEVEL 2");
       fallingObjects(1800);
-
+      
       acceleration = 2.9;
       // fallingSpeedObject();
+    } else if (score === 3 && powerObject === null) {
+      console.log("LEVEL 2");
+      fallingObjects(1800);
+   
+      acceleration = 2.9;
+      fallingSpeedObject();
     } else {
       console.log("LEVEL 1");
       fallingObjects(1900);
       acceleration = 2.9;
+  
+      
     }
   }
 
@@ -664,8 +677,28 @@ function gameScreen() {
       powerUp(powerObject.x, powerObject.y);
       powerObject.velocity = velocity * acceleration2;
       powerObject.y += powerObject.velocity;
+
+      if (isGameActive &&
+        powerObject.x < CharacterRightBound &&
+        powerObject.x > characterLeftBound &&
+        powerObject.y > 444 &&
+        powerObject.y < 550
+      )  {    //check if the objects are collectable => increase score
+        if (!powerObject.collided && powerObject.type === "powerup") {
+          console.log("POWER UP!!!!");
+          powerObject.collided = true;
+          powerObject = null;
+ 
+          // increase character speed 
+          // speed = 30;
+        }  
+      } else {
+        powerObject.collided = false;
+      }
     }
   }
+  
+ 
 
   // Move the cat
   if (keyIsDown(37) && isGameActive) {
