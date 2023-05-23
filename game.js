@@ -118,67 +118,71 @@ function catSad(x, y, catHappy, catSad) {
     ellipse(x + 23, y - 40, 6);
     pop();
     /*   ellipse(x + 20, y - 28, 20, 12); */
+<<<<<<< Updated upstream
   }
   
   else {
+=======
+  } else {
+>>>>>>> Stashed changes
     noStroke();
 
-  // Ear left
-  triangle(x - 40, y - 30, x - 40, y - 50, x, y - 50);
+    // Ear left
+    triangle(x - 40, y - 30, x - 40, y - 50, x, y - 50);
 
-  // Ear right
-  triangle(x + 40, y - 30, x + 40, y - 50, x, y - 50);
+    // Ear right
+    triangle(x + 40, y - 30, x + 40, y - 50, x, y - 50);
 
-  // Tail
-  rect(x + 30, y + 10, 40, 10, 100);
+    // Tail
+    rect(x + 30, y + 10, 40, 10, 100);
 
-  // Body
-  ellipse(x, y, 115, 94);
+    // Body
+    ellipse(x, y, 115, 94);
 
-  // Head
-  ellipse(x, y - 3, 106, 108);
+    // Head
+    ellipse(x, y - 3, 106, 108);
 
-  // Eye left
-  push();
-  fill(0, 0, 0);
-  ellipse(x - 16, y - 44, 8, 6);
+    // Eye left
+    push();
+    fill(0, 0, 0);
+    ellipse(x - 16, y - 44, 8, 6);
 
-  // Eye right
-  ellipse(x + 16, y - 44, 8, 6);
-  pop();
+    // Eye right
+    ellipse(x + 16, y - 44, 8, 6);
+    pop();
 
-  // Nose
-  push();
-  fill(260, 220, 244);
-  triangle(x - 7, y - 44, x + 7, y - 44, x, y - 39);
+    // Nose
+    push();
+    fill(260, 220, 244);
+    triangle(x - 7, y - 44, x + 7, y - 44, x, y - 39);
 
-  // Mouth
-  triangle(x - 18, y - 29, x, y - 36, x + 18, y - 29);
-  ellipse(x, y - 20, 50, 26);
-  pop();
+    // Mouth
+    triangle(x - 18, y - 29, x, y - 36, x + 18, y - 29);
+    ellipse(x, y - 20, 50, 26);
+    pop();
 
-  push();
-  translate(x - 10, y - 34);
-  rotate(-0.3);
-  ellipse(0, 0, 22, 10);
-  pop();
+    push();
+    translate(x - 10, y - 34);
+    rotate(-0.3);
+    ellipse(0, 0, 22, 10);
+    pop();
 
-  push();
-  translate(x + 10, y - 34);
-  rotate(0.3);
-  ellipse(0, 0, 22, 10);
-  pop();
+    push();
+    translate(x + 10, y - 34);
+    rotate(0.3);
+    ellipse(0, 0, 22, 10);
+    pop();
 
-  // Fangs
-  triangle(x - 18, y - 30, x - 12, y - 25, x - 9, y - 30);
-  triangle(x + 18, y - 30, x + 12, y - 25, x + 9, y - 30);
+    // Fangs
+    triangle(x - 18, y - 30, x - 12, y - 25, x - 9, y - 30);
+    triangle(x + 18, y - 30, x + 12, y - 25, x + 9, y - 30);
 
-  // Paw left
-  ellipse(x - 30, y + 40, 15);
+    // Paw left
+    ellipse(x - 30, y + 40, 15);
 
-  // Paw right
-  ellipse(x + 30, y + 40, 15);
-}
+    // Paw right
+    ellipse(x + 30, y + 40, 15);
+  }
 }
 function treat(x, y) {
   // Cookie
@@ -739,7 +743,6 @@ function draw() {
     } else {
       isHappy = false; // Reset to sad state when the timer expires
       isSad = false;
-      
     }
   }
 }
