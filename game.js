@@ -118,13 +118,7 @@ function catSad(x, y, catHappy, catSad) {
     ellipse(x + 23, y - 40, 6);
     pop();
     /*   ellipse(x + 20, y - 28, 20, 12); */
-<<<<<<< Updated upstream
-  }
-  
-  else {
-=======
   } else {
->>>>>>> Stashed changes
     noStroke();
 
     // Ear left
@@ -444,8 +438,8 @@ function scoreBoard(x, y) {
   text("name", x + 110, y + 68);
   text("score", x + 214, y + 68);
   pop();
-} 
-    
+}
+
 let isGameActive = true;
 let velocity = 2;
 let score = 0;
@@ -480,10 +474,9 @@ function gameOver() {
   // displays highscores along with its position
   for (let i = 0; i < highscores.length; i++) {
     displayHighscore(highscores[i], i, 482, 225 + i * 70, 202, 128, "player");
-  
   }
 }
-   
+
 let catX = 400;
 let speed = 15;
 // let velocity1 = 2;
@@ -523,23 +516,21 @@ function displayHighscore(
 }
 // localStorage.clear();
 
-
 function fallingSpeedObject() {
-  if (score>=3 && powerObject ===null) {
-  let Xposition = Math.floor(random(width));
-  let Yposition = -10;
-  let newPowerObject;
-  newPowerObject = {
-    type: "powerup",
-    x: Xposition, 
-    y: Yposition,
-    velocity: 2,
-  };  
-  powerObject = newPowerObject;
-  
-} 
-} 
- 
+  if (score >= 3 && powerObject === null) {
+    let Xposition = Math.floor(random(width));
+    let Yposition = -10;
+    let newPowerObject;
+    newPowerObject = {
+      type: "powerup",
+      x: Xposition,
+      y: Yposition,
+      velocity: 2,
+    };
+    powerObject = newPowerObject;
+  }
+}
+
 let isSad = false;
 let isHappy = false;
 let happyTimer = 0;
@@ -584,27 +575,26 @@ function gameScreen() {
       fallingObjects(1300);
       acceleration = 2.9;
     } else if (score >= 15) {
-      console.log("LEVEL 4"); 
-      fallingObjects(1400);  
+      console.log("LEVEL 4");
+      fallingObjects(1400);
       acceleration = 2.9;
     } else if (score >= 10) {
       console.log("LEVEL 3");
-      fallingObjects(1600); 
+      fallingObjects(1600);
       acceleration = 2.9;
     } else if (score >= 3 && powerObject === null) {
-      console.log("LEVEL 2"); 
+      console.log("LEVEL 2");
       fallingObjects(1800);
-                
+
       acceleration = 2.9;
       // fallingSpeedObject();
-                     
     } else {
       console.log("LEVEL 1");
       fallingObjects(1900);
       acceleration = 2.9;
-    } 
-  } 
-   
+    }
+  }
+
   for (let i = 0; i < objects.length; i++) {
     let obj = objects[i];
 
@@ -664,34 +654,29 @@ function gameScreen() {
     } else if (obj.type === "bomb") {
       bomb(obj.x, obj.y);
     } else if (obj.type === "treat") {
-      treat(obj.x, obj.y); 
-    } 
-      
+      treat(obj.x, obj.y);
+    }
+
     obj.velocity = velocity * acceleration;
     obj.y += obj.velocity;
-    
 
     if (powerObject) {
-     
       powerUp(powerObject.x, powerObject.y);
       powerObject.velocity = velocity * acceleration2;
       powerObject.y += powerObject.velocity;
-
- 
     }
-       
   }
-   
+
   // Move the cat
   if (keyIsDown(37) && isGameActive) {
     catX = catX - speed; // Left
   } else if (keyIsDown(39) && isGameActive) {
     catX = catX + speed; // Right
   }
- 
+
   // stop the cat from moving outside the screeb
   catX = constrain(catX, 50, 750);
-} 
+}
 
 // Score Tracker
 function scoreTracker() {
@@ -720,11 +705,11 @@ function draw() {
   if (state === "gameOver") {
     gameOver();
   }
-     
+
   changeCursor();
   scoreTracker();
   healthTracker();
-   
+
   if (isGameActive) {
     if (isHappy) {
       // Draw the happy cat
@@ -769,13 +754,13 @@ function mouseClicked() {
     isGameActive = true;
     velocity = 2;
     // velocity1 = 2;
-    acceleration = 1;   
-    catX = 340; 
+    acceleration = 1;
+    catX = 340;
     speed = 15;
     health = ["❤️", "❤️", "❤️"];
     score = 0;
   }
-} 
+}
 
 // Changes cursor when hovering over the startbutton
 function changeCursor() {
@@ -804,8 +789,6 @@ let objects = [];
 let lastObjectSpawned = 0;
 let timeVariable = 1000;
 
-    
-  
 function fallingObjects(timeVariable) {
   let currentTime = millis();
 
@@ -813,7 +796,7 @@ function fallingObjects(timeVariable) {
     let randomWidth = Math.floor(random(50, 750));
     let heightPosition = -10;
     let newObject;
- 
+
     let randomNumber = Math.floor(Math.random() * 101);
 
     if (randomNumber < 40) {
@@ -843,5 +826,3 @@ function fallingObjects(timeVariable) {
     lastObjectSpawned = currentTime;
   }
 }
-
-    
