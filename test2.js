@@ -3,312 +3,204 @@ function setup() {
   frameRate(30);
 }
 
-class Cat {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.speed = 15;
-    this.isHappy = false;
-    this.isSad = false;
-    this.happyTimer = 0;
-    this.sadTimer = 0;
-  }
-
-  updatePosition(direction) {
-    if (direction === "left") {
-      this.x -= this.speed;
-    } else if (direction === "right") {
-      this.x += this.speed;
-    }
-    this.x = constrain(this.x, 50, 750);
-  }
-
-  drawHappy() {
+// Default- / sad- / happy cat
+function catSad(x, y, catHappy, catSad) {
+  if (catHappy) {
     noStroke();
 
     // Ear left
-    triangle(
-      this.x - 40,
-      this.y - 30,
-      this.x - 40,
-      this.y - 50,
-      this.x,
-      this.y - 50
-    );
+    triangle(x - 40, y - 30, x - 40, y - 50, x, y - 50);
 
     // Ear right
-    triangle(
-      this.x + 40,
-      this.y - 30,
-      this.x + 40,
-      this.y - 50,
-      this.x,
-      this.y - 50
-    );
+    triangle(x + 40, y - 30, x + 40, y - 50, x, y - 50);
 
     // Tail
-    rect(this.x + 30, this.y + 10, 40, 10, 100);
+    rect(x + 30, y + 10, 40, 10, 100);
 
     // Body
-    ellipse(this.x, this.y, 115, 94);
+    ellipse(x, y, 115, 94);
 
     // Head
-    ellipse(this.x, this.y - 3, 106, 108);
+    ellipse(x, y - 3, 106, 108);
 
     // Nose
     push();
     fill(260, 220, 244);
-    triangle(
-      this.x - 7,
-      this.y - 37,
-      this.x + 7,
-      this.y - 37,
-      this.x,
-      this.y - 32
-    );
+    triangle(x - 7, y - 37, x + 7, y - 37, x, y - 32);
     pop();
 
     // Happy Mouth
     push();
     fill(260, 220, 244);
-    ellipse(this.x, this.y - 20, 20);
+    ellipse(x, y - 20, 20);
     pop();
     push();
     fill(255, 255, 255);
-    ellipse(this.x - 6, this.y - 27, 12);
-    ellipse(this.x + 6, this.y - 27, 12);
-    ellipse(this.x, this.y - 30, 4);
+    ellipse(x - 6, y - 27, 12);
+    ellipse(x + 6, y - 27, 12);
+    ellipse(x, y - 30, 4);
     pop();
 
     // Paw left
-    ellipse(this.x - 30, this.y + 40, 15);
+    ellipse(x - 30, y + 40, 15);
 
     // Paw right
-    ellipse(this.x + 30, this.y + 40, 15);
+    ellipse(x + 30, y + 40, 15);
 
     // Happy Eye left
-    text("❤️", this.x - 36, this.y - 30);
+    text("❤️", x - 36, y - 30);
 
     // Happy Eye right
-    text("❤️", this.x + 4, this.y - 30);
-  }
-
-  drawSad() {
+    text("❤️", x + 4, y - 30);
+  } else if (catSad) {
     noStroke();
 
     // Ear left
-    triangle(
-      this.x - 40,
-      this.y - 30,
-      this.x - 43,
-      this.y - 48,
-      this.x - 10,
-      this.y - 56
-    );
+    triangle(x - 40, y - 30, x - 43, y - 48, x - 10, y - 56);
 
     // Ear right
-    triangle(
-      this.x + 40,
-      this.y - 30,
-      this.x + 44,
-      this.y - 48,
-      this.x + 10,
-      this.y - 56
-    );
+    triangle(x + 40, y - 30, x + 44, y - 48, x + 10, y - 56);
 
     // Tail
-    rect(this.x + 30, this.y + 10, 40, 10, 100);
+    rect(x + 30, y + 10, 40, 10, 100);
 
     // Body
-    ellipse(this.x, this.y, 115, 94);
+    ellipse(x, y, 115, 94);
 
     // Head
-    ellipse(this.x, this.y - 3, 106, 108);
+    ellipse(x, y - 3, 106, 108);
 
     // Nose
     push();
     fill(260, 220, 244);
-    triangle(
-      this.x - 7,
-      this.y - 37,
-      this.x + 7,
-      this.y - 37,
-      this.x,
-      this.y - 32
-    );
+    triangle(x - 7, y - 37, x + 7, y - 37, x, y - 32);
     pop();
 
     // Sad Mouth
     push();
     fill(260, 220, 244);
-    ellipse(this.x, this.y - 16, 20);
+    ellipse(x, y - 16, 20);
     pop();
     push();
     fill(255, 255, 255);
-    rect(this.x - 10, this.y - 13, 20, 13);
+    rect(x - 10, y - 13, 20, 13);
     /* ellipse(x, y - 15, 14, 13); */
     pop();
 
     // Paw left
-    ellipse(this.x - 30, this.y + 40, 15);
+    ellipse(x - 30, y + 40, 15);
 
     // Paw right
-    ellipse(this.x + 30, this.y + 40, 15);
+    ellipse(x + 30, y + 40, 15);
 
     // Sad Eye left
     push();
     fill(142, 191, 134);
-    ellipse(this.x - 20, this.y - 36, 20);
+    ellipse(x - 20, y - 36, 20);
     pop();
     push();
     fill(0, 0, 0);
-    ellipse(this.x - 20, this.y - 36, 16);
+    ellipse(x - 20, y - 36, 16);
     fill(255, 255, 255);
-    ellipse(this.x - 17, this.y - 40, 6);
+    ellipse(x - 17, y - 40, 6);
     pop();
     /* ellipse(x - 20, y - 28, 20, 12); */
 
     // Sad Eye right
     push();
     fill(142, 191, 134);
-    ellipse(this.x + 20, this.y - 36, 20);
+    ellipse(x + 20, y - 36, 20);
     pop();
     push();
     fill(0, 0, 0);
-    ellipse(this.x + 20, this.y - 36, 16);
+    ellipse(x + 20, y - 36, 16);
     fill(255, 255, 255);
-    ellipse(this.x + 23, this.y - 40, 6);
+    ellipse(x + 23, y - 40, 6);
     pop();
     /*   ellipse(x + 20, y - 28, 20, 12); */
-  }
-
-  drawNeutral() {
+  } else {
     noStroke();
 
     // Ear left
-    triangle(
-      this.x - 40,
-      this.y - 30,
-      this.x - 40,
-      this.y - 50,
-      this.x,
-      this.y - 50
-    );
+    triangle(x - 40, y - 30, x - 40, y - 50, x, y - 50);
 
     // Ear right
-    triangle(
-      this.x + 40,
-      this.y - 30,
-      this.x + 40,
-      this.y - 50,
-      this.x,
-      this.y - 50
-    );
+    triangle(x + 40, y - 30, x + 40, y - 50, x, y - 50);
 
     // Tail
-    rect(this.x + 30, this.y + 10, 40, 10, 100);
+    rect(x + 30, y + 10, 40, 10, 100);
 
     // Body
-    ellipse(this.x, this.y, 115, 94);
+    ellipse(x, y, 115, 94);
 
     // Head
-    ellipse(this.x, this.y - 3, 106, 108);
+    ellipse(x, y - 3, 106, 108);
 
     // Eye left
     push();
     fill(0, 0, 0);
-    ellipse(this.x - 16, this.y - 44, 8, 6);
+    ellipse(x - 16, y - 44, 8, 6);
 
     // Eye right
-    ellipse(this.x + 16, this.y - 44, 8, 6);
+    ellipse(x + 16, y - 44, 8, 6);
     pop();
 
     // Nose
     push();
     fill(260, 220, 244);
-    triangle(
-      this.x - 7,
-      this.y - 44,
-      this.x + 7,
-      this.y - 44,
-      this.x,
-      this.y - 39
-    );
+    triangle(x - 7, y - 44, x + 7, y - 44, x, y - 39);
 
     // Mouth
-    triangle(
-      this.x - 18,
-      this.y - 29,
-      this.x,
-      this.y - 36,
-      this.x + 18,
-      this.y - 29
-    );
-    ellipse(this.x, this.y - 20, 50, 26);
+    triangle(x - 18, y - 29, x, y - 36, x + 18, y - 29);
+    ellipse(x, y - 20, 50, 26);
     pop();
 
     push();
-    translate(this.x - 10, this.y - 34);
+    translate(x - 10, y - 34);
     rotate(-0.3);
     ellipse(0, 0, 22, 10);
     pop();
 
     push();
-    translate(this.x + 10, this.y - 34);
+    translate(x + 10, y - 34);
     rotate(0.3);
     ellipse(0, 0, 22, 10);
     pop();
 
     // Fangs
-    triangle(
-      this.x - 18,
-      this.y - 30,
-      this.x - 12,
-      this.y - 25,
-      this.x - 9,
-      this.y - 30
-    );
-    triangle(
-      this.x + 18,
-      this.y - 30,
-      this.x + 12,
-      this.y - 25,
-      this.x + 9,
-      this.y - 30
-    );
+    triangle(x - 18, y - 30, x - 12, y - 25, x - 9, y - 30);
+    triangle(x + 18, y - 30, x + 12, y - 25, x + 9, y - 30);
 
     // Paw left
-    ellipse(this.x - 30, this.y + 40, 15);
+    ellipse(x - 30, y + 40, 15);
 
     // Paw right
-    ellipse(this.x + 30, this.y + 40, 15);
+    ellipse(x + 30, y + 40, 15);
   }
 }
+function treat(x, y) {
+  // Cookie
+  push();
+  fill(241, 210, 189);
+  ellipse(x, y, 45);
+  pop();
 
-class Treat {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
+  // Chocolate chips
+  push();
+  fill(145, 96, 75);
+  ellipse(x - 14, y + 4, 9);
+  ellipse(x - 2, y + 14, 9);
+  ellipse(x + 12, y + 10, 9);
+  ellipse(x + 1, y, 9);
+  ellipse(x + 14, y - 6, 9);
+  ellipse(x + 2, y - 14, 9);
+  pop();
 
-  drawTreat() {
-    // Cookie
-    push();
-    fill(241, 210, 189);
-    ellipse(this.x, this.y, 45);
-    pop();
-
-    // Chocolate chips
-    push();
-    fill(145, 96, 75);
-    ellipse(this.x - 14, this.y + 4, 9);
-    ellipse(this.x - 2, this.y + 14, 9);
-    ellipse(this.x + 12, this.y + 10, 9);
-    ellipse(this.x + 1, this.y, 9);
-    ellipse(this.x + 14, this.y - 6, 9);
-    ellipse(this.x + 2, this.y - 14, 9);
-    pop();
-  }
+  return {
+    type: "treat",
+    x: x,
+    y: y,
+  };
 }
 
 // Fish
@@ -316,14 +208,22 @@ class Fish {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+    this.type = "fish";
   }
 
-  drawFish() {
+  display() {
     push();
     fill(177, 204, 222);
-    ellipse(this.x, this.y, 45, 30);
+    this.drawBody();
+    this.drawTail();
+    pop();
+  }
 
-    // Tail fish
+  drawBody() {
+    ellipse(this.x, this.y, 45, 30);
+  }
+
+  drawTail() {
     triangle(
       this.x,
       this.y,
@@ -332,104 +232,96 @@ class Fish {
       this.x + 34,
       this.y + 12
     );
-    pop();
   }
 }
+/* function fish(x, y) { */
+/*   push(); */
+/*   fill(177, 204, 222); */
+/*   ellipse(x, y, 45, 30); */
+/*  */
+/*   // Tail fish */
+/*   triangle(x, y, x + 34, y - 12, x + 34, y + 12); */
+/*   pop(); */
+/*  */
+/*   return { */
+/*     type: "fish", */
+/*     x: x, */
+/*     y: y, */
+/*   }; */
+/* } */
 
-class Bomb {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
+function bomb(x, y) {
+  // Bomb
+  push();
+  fill(118, 48, 136);
+  ellipse(x, y, 40);
+  pop();
 
-  drawBomb() {
-    // Bomb
-    push();
-    fill(118, 48, 136);
-    ellipse(this.x, this.y, 40);
-    pop();
+  push();
+  translate(x + 10, y - 14);
+  rotate(0.5);
+  fill(118, 48, 136);
+  ellipse(0, 0, 20, 16);
+  pop();
 
-    push();
-    translate(this.x + 10, this.y - 14);
-    rotate(0.5);
-    fill(118, 48, 136);
-    ellipse(0, 0, 20, 16);
-    pop();
+  // Thread on bomb
+  push();
+  fill(130, 97, 78);
+  translate(x + 10, y - 18);
+  rotate(-0.8);
+  rect(0, 0, 12, 4, 10);
+  /* line(x + 10, y - 20, x + 20, y - 30); */
+  pop();
 
-    // Thread on bomb
-    push();
-    fill(130, 97, 78);
-    translate(this.x + 10, this.y - 18);
-    rotate(-0.8);
-    rect(0, 0, 12, 4, 10);
-    /* line(x + 10, y - 20, x + 20, y - 30); */
-    pop();
+  // Skull
+  push();
+  fill(201, 167, 209);
+  translate(x + 1, y - 2);
+  rotate(0.4);
+  ellipse(0, 0, 20, 18);
+  pop();
 
-    // Skull
-    push();
-    fill(201, 167, 209);
-    translate(this.x + 1, this.y - 2);
-    rotate(0.4);
-    ellipse(0, 0, 20, 18);
-    pop();
+  // Jaw skull
+  push();
+  fill(201, 167, 209);
+  translate(x - 6, y);
+  rotate(0.5);
+  rect(0, 0, 10, 8, 3);
+  pop();
 
-    // Jaw skull
-    push();
-    fill(201, 167, 209);
-    translate(this.x - 6, this.y);
-    rotate(0.5);
-    rect(0, 0, 10, 8, 3);
-    pop();
+  // Eyeholes skull
+  push();
+  fill(118, 48, 136);
+  ellipse(x - 3, y - 3, 6);
+  ellipse(x + 5, y + 1, 6);
+  pop();
 
-    // Eyeholes skull
-    push();
-    fill(118, 48, 136);
-    ellipse(this.x - 3, this.y - 3, 6);
-    ellipse(this.x + 5, this.y + 1, 6);
-    pop();
-  }
+  return {
+    type: "bomb",
+    x: x,
+    y: y,
+  };
 }
 
 // Speed Power up
-class PowerUp {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-  drawPowerUp() {
-    push();
-    fill(241, 213, 122);
-    ellipse(this.x, this.y, 45);
-    fill(250, 189, 107);
-    ellipse(this.x, this.y, 35);
-    fill(241, 213, 122);
-    triangle(
-      this.x - 4,
-      this.y - 10,
-      this.x + 7,
-      this.y - 10,
-      this.x - 9,
-      this.y + 3
-    );
-    triangle(
-      this.x - 2,
-      this.y - 10,
-      this.x + 9,
-      this.y - 10,
-      this.x - 2,
-      this.y + 3
-    );
-    triangle(
-      this.x,
-      this.y - 2,
-      this.x + 10,
-      this.y - 1,
-      this.x - 5,
-      this.y + 14
-    );
-    rect(this.x - 8, this.y - 2, 8, 5);
-    pop();
-  }
+function powerUp(x, y) {
+  push();
+  fill(241, 213, 122);
+  ellipse(x, y, 45);
+  fill(250, 189, 107);
+  ellipse(x, y, 35);
+  fill(241, 213, 122);
+  triangle(x - 4, y - 10, x + 7, y - 10, x - 9, y + 3);
+  triangle(x - 2, y - 10, x + 9, y - 10, x - 2, y + 3);
+  triangle(x, y - 2, x + 10, y - 1, x - 5, y + 14);
+  rect(x - 8, y - 2, 8, 5);
+  pop();
+
+  return {
+    type: "powerup",
+    x: x,
+    y: y,
+  };
 }
 
 // Clouds
@@ -487,6 +379,7 @@ function scenery() {
   let cloud1 = new Cloud1(90, 250);
   let cloud2 = new Cloud2(640, 180);
   let cloud3 = new Cloud3(520, 340);
+
   cloud1.display();
   cloud2.display();
   cloud3.display();
@@ -602,15 +495,12 @@ let score = 0;
 let health = ["❤️", "❤️", "❤️"];
 let state = "start";
 
-// cat object
-let cat = new Cat(400, 500);
-
 // Menu Screen
 function menuScreen() {
   noStroke();
   scenery();
   logo(400, 190);
-  cat.drawNeutral();
+  catSad(400, 500, false, false);
   // powerUp(200, 200);
 }
 
@@ -624,9 +514,7 @@ function gameOver() {
   text("TRY AGAIN!", 590, 230);
   pop();
   startButton(660, 290);
-  cat.x = 130;
-  cat.y = 170;
-  cat.drawSad();
+  catSad(130, 370, false, true);
   text("Enter name:", 590, 390);
 
   // retrieve higshcores from the array in local storage
@@ -639,7 +527,7 @@ function gameOver() {
 }
 
 let catX = 400;
-// let speed = 15;
+let speed = 15;
 // let velocity1 = 2;
 let acceleration = 1.0;
 let acceleration2 = 1.0;
@@ -682,7 +570,12 @@ function fallingSpeedObject() {
     let Xposition = Math.floor(random(50, 750));
     let Yposition = -10;
     let newPowerObject;
-    newPowerObject = new PowerUp(Xposition, Yposition);
+    newPowerObject = {
+      type: "powerup",
+      x: Xposition,
+      y: Yposition,
+      velocity: 2,
+    };
     powerObject = newPowerObject;
   }
 }
@@ -696,9 +589,9 @@ powerObject = null;
 // Game screen
 function gameScreen() {
   scenery();
-  cat.drawNeutral();
+  catSad(catX, 500, false, false);
   //retrieve characters width interval based on x-position in order to compare with objects
-  let characterX = cat.x;
+  let characterX = catX;
   let CharacterWidth = 115;
   let characterLeftBound = characterX - CharacterWidth / 2;
   let CharacterRightBound = characterX + CharacterWidth / 2;
@@ -774,7 +667,7 @@ function gameScreen() {
       obj.y < 550
     ) {
       //check if the objects are collectable => increase score
-      if ((!obj.collided && obj instanceof Fish) || obj instanceof Treat) {
+      if ((!obj.collided && obj.type === "fish") || obj.type === "treat") {
         // console.log(obj.y);
         obj.collided = true;
         //remove the collided object from the array
@@ -782,18 +675,18 @@ function gameScreen() {
         //increase score by 1
         score += 1;
         //switch to happy cat for certain amount of time when collecting
-        cat.isHappy = true;
-        cat.happyTimer = 15;
+        isHappy = true;
+        happyTimer = 15;
         //check if the objects are NOT collectable => decrease health
-      } else if (!obj.collided && obj instanceof Bomb) {
-        cat.isSad = true;
-        cat.sadTimer = 15;
+      } else if (!obj.collided && obj.type === "bomb") {
+        isSad = true;
+        sadTimer = 15;
         obj.collided = true;
         //remove the collided object from the array
         objects.splice(i, 1);
         // remove a heart from the health array
         health.pop();
-      } else if ((obj instanceof Fish || obj instanceof Treat) && obj.y > 505) {
+      } else if ((obj.type === "fish" || obj.type === "treat") && obj.y > 505) {
         //remove the collided object from the array
         objects.splice(i, 1);
 
@@ -803,11 +696,11 @@ function gameScreen() {
       obj.collided = false;
     }
 
-    if (obj.y > 505 && (obj instanceof Fish || obj instanceof Treat)) {
+    if (obj.y > 505 && (obj.type === "fish" || obj.type === "treat")) {
       objects.splice(i, 1);
       health.pop();
-      cat.isSad = true;
-      cat.sadTimer = 15;
+      isSad = true;
+      sadTimer = 15;
     }
 
     if (health.length === 0) {
@@ -816,19 +709,19 @@ function gameScreen() {
       saveHighscore(score);
     }
 
-    if (obj instanceof Fish) {
-      obj.drawFish();
-    } else if (obj instanceof Bomb) {
-      obj.drawBomb();
-    } else if (obj instanceof Treat) {
-      obj.drawTreat();
+    if (obj.type === "fish") {
+      fish(obj.x, obj.y);
+    } else if (obj.type === "bomb") {
+      bomb(obj.x, obj.y);
+    } else if (obj.type === "treat") {
+      treat(obj.x, obj.y);
     }
 
     obj.velocity = velocity * acceleration;
     obj.y += obj.velocity;
 
-    if (powerObject instanceof PowerUp) {
-      powerObject.drawPowerUp();
+    if (powerObject) {
+      powerUp(powerObject.x, powerObject.y);
       powerObject.velocity = velocity * acceleration2;
       powerObject.y += powerObject.velocity;
 
@@ -840,7 +733,7 @@ function gameScreen() {
         powerObject.y < 550
       ) {
         //check if the objects are collectable => increase score
-        if (!powerObject.collided) {
+        if (!powerObject.collided && powerObject.type === "powerup") {
           console.log("POWER UP!!!!");
           powerObject.collided = true;
           powerObject = null;
@@ -856,10 +749,13 @@ function gameScreen() {
 
   // Move the cat
   if (keyIsDown(37) && isGameActive) {
-    cat.updatePosition("left"); // Left
+    catX = catX - speed; // Left
   } else if (keyIsDown(39) && isGameActive) {
-    cat.updatePosition("right"); // Right
+    catX = catX + speed; // Right
   }
+
+  // stop the cat from moving outside the screeb
+  catX = constrain(catX, 50, 750);
 }
 
 // Score Tracker
@@ -895,23 +791,23 @@ function draw() {
   healthTracker();
 
   if (isGameActive) {
-    if (cat.isHappy) {
+    if (isHappy) {
       // Draw the happy cat
-      cat.drawHappy();
-    } else if (cat.isSad) {
+      catSad(catX, 500, true, false);
+    } else if (isSad) {
       // Draw the sad cat
-      cat.drawSad();
+      catSad(catX, 500, false, true);
     } else {
       // Draw the sad cat
-      cat.drawNeutral();
+      catSad(catX, 500, false, false);
     }
 
-    if (cat.happyTimer > 0 || cat.sadTimer > 0) {
-      cat.happyTimer--;
-      cat.sadTimer--;
+    if (happyTimer > 0 || sadTimer > 0) {
+      happyTimer--;
+      sadTimer--;
     } else {
-      cat.isHappy = false; // Reset to sad state when the timer expires
-      cat.isSad = false;
+      isHappy = false; // Reset to sad state when the timer expires
+      isSad = false;
     }
   }
 }
@@ -984,11 +880,26 @@ function fallingObjects(timeVariable) {
     let randomNumber = Math.floor(Math.random() * 101);
 
     if (randomNumber < 40) {
-      newObject = new Fish(randomWidth, heightPosition);
+      newObject = {
+        type: "fish",
+        x: randomWidth,
+        y: heightPosition,
+        velocity: 2,
+      };
     } else if (randomNumber < 60) {
-      newObject = new Bomb(randomWidth, heightPosition);
+      newObject = {
+        type: "bomb",
+        x: randomWidth,
+        y: heightPosition,
+        velocity: 2,
+      };
     } else {
-      newObject = new Treat(randomWidth, heightPosition);
+      newObject = {
+        type: "treat",
+        x: randomWidth,
+        y: heightPosition,
+        velocity: 2,
+      };
     }
 
     objects.push(newObject);
