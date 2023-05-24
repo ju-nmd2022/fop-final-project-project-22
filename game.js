@@ -8,10 +8,12 @@ class Cat {
     this.x = x;
     this.y = y;
     this.speed = 15;
+    this.isFast = false;
     this.isHappy = false;
     this.isSad = false;
     this.happyTimer = 0;
     this.sadTimer = 0;
+    this.fastTimer = 0;
   }
 
   updatePosition(direction) {
@@ -598,6 +600,7 @@ function scoreBoard(x, y) {
 
 let isGameActive = true;
 let velocity = 2;
+let velocity2 = 2;
 let score = 0;
 let health = ["❤️", "❤️", "❤️"];
 let state = "start";
@@ -621,13 +624,13 @@ function gameOver() {
   push();
   fill(0, 0, 0);
   textStyle(BOLD);
-  text("TRY AGAIN!", 590, 230);
-  pop();
-  startButton(660, 290);
+  text("TRY AGAIN!", 590, 310);
+  pop(); 
+  startButton(660, 370);
   cat.x = 130;
-  cat.y = 170;
+  cat.y = 370; 
   cat.drawSad();
-  text("Enter name:", 590, 390);
+  // text("Enter name:", 590, 390);
 
   // retrieve higshcores from the array in local storage
   let highscores = JSON.parse(localStorage.getItem("scores"));
@@ -635,9 +638,9 @@ function gameOver() {
   // displays highscores along with its position
   for (let i = 0; i < highscores.length; i++) {
     displayHighscore(highscores[i], i, 482, 225 + i * 70, 202, 128, "player");
-  }
+  } 
 }
-
+ 
 let catX = 400;
 // let speed = 15;
 // let velocity1 = 2;
@@ -681,9 +684,13 @@ function fallingSpeedObject() {
   if (score >= 3 && powerObject === null) {
     let Xposition = Math.floor(random(50, 750));
     let Yposition = -10;
-    let newPowerObject;
-    newPowerObject = new PowerUp(Xposition, Yposition);
+   
+    let newPowerObject = new PowerUp(Xposition, Yposition);
     powerObject = newPowerObject;
+
+    powerObject.velocity2 = velocity2 * acceleration2;
+    powerObject.y = Yposition;
+   
   }
 }
 
@@ -706,59 +713,63 @@ function gameScreen() {
   // increase acceleration and objects each level
   if (isGameActive) {
     // fallingObjectsfixedrate();
-    if (score >= 90) {
+    if (score >= 80) {
       console.log("LEVEL 10");
-      fallingObjects(800);
-      acceleration = 3.1;
+      fallingObjects(600);
+      acceleration = 4.5;
     } else if (score >= 70) {
       console.log("LEVEL 9");
-      fallingObjects(1000);
-      acceleration = 3.1;
+      fallingObjects(700);
+      acceleration = 4.3;
     } else if (score >= 60) {
       console.log("LEVEL 8");
-      fallingObjects(1200);
-      acceleration = 3.0;
+      fallingObjects(800);
+      acceleration = 4.2;
     } else if (score >= 50) {
       console.log("LEVEL 7");
-      fallingObjects(1300);
-      acceleration = 3.0;
+      fallingObjects(900);
+      acceleration = 4.1;
     } else if (score >= 40) {
       console.log("LEVEL 6");
-      fallingObjects(1300);
-      acceleration = 2.9;
+      fallingObjects(900);
+      acceleration = 4.0;
     } else if (score >= 25) {
       console.log("LEVEL 5");
-      fallingObjects(1300);
-      acceleration = 2.9;
+      fallingObjects(1000);
+      acceleration = 3.9;
     } else if (score >= 15) {
       console.log("LEVEL 4");
-      fallingObjects(1400);
-      acceleration = 2.9;
+      fallingObjects(1000);
+      acceleration = 3.8;
     } else if (score > 10) {
       console.log("LEVEL 3");
-      fallingObjects(1600);
-      acceleration = 2.9;
+      fallingObjects(1100);
+      acceleration = 3.7;
     } else if (score === 10 && powerObject === null) {
       console.log("LEVEL 3");
-      fallingObjects(1600);
-      acceleration = 2.9;
-      fallingSpeedObject();
+      // fallingSpeedObject();
+     
+      fallingObjects(1200);
+      acceleration = 3.7;
+  
     } else if (score > 3) {
       console.log("LEVEL 2");
-      fallingObjects(1800);
+      fallingObjects(1300);
 
-      acceleration = 2.9;
+      acceleration = 3.6;
       // fallingSpeedObject();
     } else if (score === 3 && powerObject === null) {
       console.log("LEVEL 2");
-      fallingObjects(1800);
-
-      acceleration = 2.9;
       fallingSpeedObject();
+     
+      fallingObjects(1400);
+
+      acceleration = 3.5;
+       
     } else {
       console.log("LEVEL 1");
-      fallingObjects(1900);
-      acceleration = 2.9;
+      fallingObjects(1500);
+      acceleration = 3.5;
     }
   }
 
@@ -823,15 +834,15 @@ function gameScreen() {
     } else if (obj instanceof Treat) {
       obj.drawTreat();
     }
-
+ 
     obj.velocity = velocity * acceleration;
     obj.y += obj.velocity;
 
     if (powerObject instanceof PowerUp) {
       powerObject.drawPowerUp();
-      powerObject.velocity = velocity * acceleration2;
-      powerObject.y += powerObject.velocity;
-
+      powerObject.velocity2 = velocity2 * acceleration2;
+      powerObject.y += powerObject.velocity2;
+ 
       if (
         isGameActive &&
         powerObject.x < CharacterRightBound &&
@@ -842,11 +853,16 @@ function gameScreen() {
         //check if the objects are collectable => increase score
         if (!powerObject.collided) {
           console.log("POWER UP!!!!");
+          console.log(powerObject.velocity2);
           powerObject.collided = true;
           powerObject = null;
+          score += 1;
 
-          // increase character speed
-          // speed = 30;
+          cat.isFast = true;
+          cat.fastTimer = 500;
+          cat.previousSpeed = cat.speed;
+          cat.speed = 40;
+
         }
       } else {
         powerObject.collided = false;
@@ -912,10 +928,19 @@ function draw() {
     } else {
       cat.isHappy = false; // Reset to sad state when the timer expires
       cat.isSad = false;
-    }
-  }
-}
+    }  
+  
+    if (cat.isFast && isGameActive) {
+      if (cat.fastTimer > 0) {
+        cat.fastTimer --;
+      } else {
+        cat.isFast = false;
+        cat.speed = cat.previousSpeed;
+      }
 
+  } }
+}
+ 
 // Mouse clicked > game starts
 function mouseClicked() {
   if (
@@ -930,17 +955,18 @@ function mouseClicked() {
     state === "gameOver" &&
     mouseX > 620 &&
     mouseX < 700 &&
-    mouseY > 250 &&
-    mouseY < 330
-  ) {
+    mouseY > 330 &&
+    mouseY < 410
+  ) { 
     objects = [];
     state = "game";
     isGameActive = true;
     velocity = 2;
     // velocity1 = 2;
     acceleration = 1;
-    catX = 340;
-    speed = 15;
+    cat.x = 400;
+    cat.y = 500;
+    cat.speed = 15;
     health = ["❤️", "❤️", "❤️"];
     score = 0;
   }
@@ -960,8 +986,8 @@ function changeCursor() {
     state == "gameOver" &&
     mouseX > 620 &&
     mouseX < 700 &&
-    mouseY > 250 &&
-    mouseY < 330
+    mouseY > 330 &&
+    mouseY < 410
   ) {
     cursor(HAND);
   } else {
