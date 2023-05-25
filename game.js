@@ -694,7 +694,6 @@ function displayHighscore(
 // localStorage.clear();
 
 function fallingSpeedObject() {
-  if (score >= 3 && powerObject === null) {
     let Xposition = Math.floor(random(50, 750));
     let Yposition = -10;
 
@@ -702,8 +701,8 @@ function fallingSpeedObject() {
     powerObject = newPowerObject;
 
     powerObject.velocity2 = velocity2 * acceleration2;
-    powerObject.y = Yposition;
-  }
+    // powerObject.y = Yposition;
+  
 }
 
 let isSad = false;
@@ -724,64 +723,41 @@ function gameScreen() {
 
   // increase acceleration and objects each level
   if (isGameActive) {
-    // fallingObjectsfixedrate();
-    if (score >= 80) {
-      console.log("LEVEL 10");
-      fallingObjects(600);
-      acceleration = 4.5;
-    } else if (score >= 70) {
-      console.log("LEVEL 9");
-      fallingObjects(700);
-      acceleration = 4.3;
-    } else if (score >= 60) {
-      console.log("LEVEL 8");
-      fallingObjects(800);
-      acceleration = 4.2;
-    } else if (score >= 50) {
-      console.log("LEVEL 7");
-      fallingObjects(900);
-      acceleration = 4.1;
-    } else if (score >= 40) {
-      console.log("LEVEL 6");
-      fallingObjects(900);
-      acceleration = 4.0;
-    } else if (score >= 25) {
-      console.log("LEVEL 5");
-      fallingObjects(1000);
-      acceleration = 3.9;
-    } else if (score >= 15) {
-      console.log("LEVEL 4");
-      fallingObjects(1000);
-      acceleration = 3.8;
-    } else if (score > 10) {
-      console.log("LEVEL 3");
-      fallingObjects(1100);
-      acceleration = 3.7;
-    } else if (score === 10 && powerObject === null) {
-      console.log("LEVEL 3");
-      // fallingSpeedObject();
+    const levels = [
+      { score: 0, fallingObjects: 1500, acceleration: 3.5 },
+      { score: 3, fallingObjects: 1300, acceleration: 3.6 },
+      { score: 10, fallingObjects: 1100, acceleration: 3.7 },
+      { score: 15, fallingObjects: 1000, acceleration: 3.8 },
+      { score: 25, fallingObjects: 1000, acceleration: 3.9 },
+      { score: 40, fallingObjects: 900, acceleration: 4.0 },
+      { score: 50, fallingObjects: 900, acceleration: 4.1 },
+      { score: 60, fallingObjects: 800, acceleration: 4.2 },
+      { score: 70, fallingObjects: 700, acceleration: 4.3 },
+      { score: 80, fallingObjects: 600, acceleration: 4.5 },
+    ];
 
-      fallingObjects(1200);
-      acceleration = 3.7;
-    } else if (score > 3) {
-      console.log("LEVEL 2");
-      fallingObjects(1300);
 
-      acceleration = 3.6;
-      // fallingSpeedObject();
-    } else if (score === 3 && powerObject === null) {
-      console.log("LEVEL 2");
-      fallingSpeedObject();
+    let currentLevel = levels[levels.length - 1];
+    for (let i = levels.length - 1; i >= 0; i--) {
+      console.log("checking level:", i + 1);
+      console.log("score:", score);
+      console.log("level score:", levels[i].score);
+      if (score >= levels[i].score) {
+        currentLevel = levels[i];
+        
+        if ((score === 20 || score === 55 ||  score === 85 ) && powerObject === null) {
+          fallingSpeedObject();
 
-      fallingObjects(1400);
+        }
+        break;
+      }
+    } 
 
-      acceleration = 3.5;
-    } else {
-      console.log("LEVEL 1");
-      fallingObjects(1500);
-      acceleration = 3.5;
-    }
+    console.log("LEVEL", levels.indexOf(currentLevel) + 1);
+    fallingObjects(currentLevel.fallingObjects);
+    acceleration = currentLevel.acceleration; 
   }
+   
 
   for (let i = 0; i < objects.length; i++) {
     let obj = objects[i];
