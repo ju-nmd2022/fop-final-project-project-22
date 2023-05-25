@@ -1,13 +1,15 @@
+// Setup
 function setup() {
   createCanvas(800, 600);
   frameRate(30);
 }
 
+// Neutral Cat Design
 class Cat {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.color = [255,255,255];
+    this.color = [255, 255, 255];
     this.speed = 15;
     this.isFast = false;
     this.isHappy = false;
@@ -28,6 +30,7 @@ class Cat {
     this.x = constrain(this.x, 50, 750);
   }
 
+  // Happy Cat Design
   drawHappy() {
     fill(this.color);
     noStroke();
@@ -85,7 +88,7 @@ class Cat {
     ellipse(this.x + 6, this.y - 27, 12);
     ellipse(this.x, this.y - 30, 4);
     pop();
-    
+
     fill(this.color);
     // Paw left
     ellipse(this.x - 30, this.y + 40, 15);
@@ -100,6 +103,7 @@ class Cat {
     text("❤️", this.x + 4, this.y - 30);
   }
 
+  // Sad Cat Design
   drawSad() {
     fill(this.color);
     noStroke();
@@ -156,7 +160,7 @@ class Cat {
     rect(this.x - 10, this.y - 13, 20, 13);
     /* ellipse(x, y - 15, 14, 13); */
     pop();
-    
+
     fill(this.color);
     // Paw left
     ellipse(this.x - 30, this.y + 40, 15);
@@ -268,7 +272,7 @@ class Cat {
     rotate(0.3);
     ellipse(0, 0, 22, 10);
     pop();
-    
+
     fill(this.color);
     // Fangs
     triangle(
@@ -296,6 +300,7 @@ class Cat {
   }
 }
 
+// Treat Object
 class Treat {
   constructor(x, y) {
     this.x = x;
@@ -322,7 +327,7 @@ class Treat {
   }
 }
 
-// Fish
+// Fish Object
 class Fish {
   constructor(x, y) {
     this.x = x;
@@ -347,6 +352,7 @@ class Fish {
   }
 }
 
+// Bomb Object
 class Bomb {
   constructor(x, y) {
     this.x = x;
@@ -624,7 +630,7 @@ function menuScreen() {
   logo(400, 190);
   cat.drawNeutral();
 }
-  
+
 // Game over screen
 function gameOver() {
   scenery();
@@ -633,11 +639,11 @@ function gameOver() {
   fill(0, 0, 0);
   textStyle(BOLD);
   text("TRY AGAIN!", 590, 310);
-  pop(); 
+  pop();
   startButton(660, 370);
   cat.x = 130;
-  cat.y = 370; 
-  cat.color = [255,255,255];
+  cat.y = 370;
+  cat.color = [255, 255, 255];
   cat.drawSad();
 
   // retrieve higshcores from the array in local storage
@@ -645,11 +651,11 @@ function gameOver() {
 
   // displays highscores along with its position
   for (let i = 0; i < highscores.length; i++) {
-    fill(0,0,0);
+    fill(0, 0, 0);
     displayHighscore(highscores[i], i, 482, 225 + i * 70, 202, 128, "player");
-  } 
+  }
 }
- 
+
 let catX = 400;
 let acceleration = 1.0;
 let acceleration2 = 1.0;
@@ -691,13 +697,12 @@ function fallingSpeedObject() {
   if (score >= 3 && powerObject === null) {
     let Xposition = Math.floor(random(50, 750));
     let Yposition = -10;
-   
+
     let newPowerObject = new PowerUp(Xposition, Yposition);
     powerObject = newPowerObject;
 
     powerObject.velocity2 = velocity2 * acceleration2;
     powerObject.y = Yposition;
-   
   }
 }
 
@@ -719,40 +724,63 @@ function gameScreen() {
 
   // increase acceleration and objects each level
   if (isGameActive) {
-    const levels = [
-      { score: 0, fallingObjects: 1500, acceleration: 3.5 },
-      { score: 3, fallingObjects: 1300, acceleration: 3.6 },
-      { score: 10, fallingObjects: 1100, acceleration: 3.7 },
-      { score: 15, fallingObjects: 1000, acceleration: 3.8 },
-      { score: 25, fallingObjects: 1000, acceleration: 3.9 },
-      { score: 40, fallingObjects: 900, acceleration: 4.0 },
-      { score: 50, fallingObjects: 900, acceleration: 4.1 },
-      { score: 60, fallingObjects: 800, acceleration: 4.2 },
-      { score: 70, fallingObjects: 700, acceleration: 4.3 },
-      { score: 80, fallingObjects: 600, acceleration: 4.5 },
-    ];
+    // fallingObjectsfixedrate();
+    if (score >= 80) {
+      console.log("LEVEL 10");
+      fallingObjects(600);
+      acceleration = 4.5;
+    } else if (score >= 70) {
+      console.log("LEVEL 9");
+      fallingObjects(700);
+      acceleration = 4.3;
+    } else if (score >= 60) {
+      console.log("LEVEL 8");
+      fallingObjects(800);
+      acceleration = 4.2;
+    } else if (score >= 50) {
+      console.log("LEVEL 7");
+      fallingObjects(900);
+      acceleration = 4.1;
+    } else if (score >= 40) {
+      console.log("LEVEL 6");
+      fallingObjects(900);
+      acceleration = 4.0;
+    } else if (score >= 25) {
+      console.log("LEVEL 5");
+      fallingObjects(1000);
+      acceleration = 3.9;
+    } else if (score >= 15) {
+      console.log("LEVEL 4");
+      fallingObjects(1000);
+      acceleration = 3.8;
+    } else if (score > 10) {
+      console.log("LEVEL 3");
+      fallingObjects(1100);
+      acceleration = 3.7;
+    } else if (score === 10 && powerObject === null) {
+      console.log("LEVEL 3");
+      // fallingSpeedObject();
 
+      fallingObjects(1200);
+      acceleration = 3.7;
+    } else if (score > 3) {
+      console.log("LEVEL 2");
+      fallingObjects(1300);
 
-    let currentLevel = levels[levels.length - 1];
-    for (let i = levels.length - 1; i >= 0; i--) {
-      console.log("checking level:", i + 1);
-      console.log("score:", score);
-      console.log("level score:", levels[i].score);
-      if (score >= levels[i].score) {
-        currentLevel = levels[i];
-        
+      acceleration = 3.6;
+      // fallingSpeedObject();
+    } else if (score === 3 && powerObject === null) {
+      console.log("LEVEL 2");
+      fallingSpeedObject();
 
-        if ((score === 35 ||  score === 50 || score === 65 ||  score === 85 )&& powerObject === null) {
-          fallingSpeedObject();
-        
-        }
-        break;
-      }
-    } 
+      fallingObjects(1400);
 
-    console.log("LEVEL", levels.indexOf(currentLevel) + 1);
-    fallingObjects(currentLevel.fallingObjects);
-    acceleration = currentLevel.acceleration; 
+      acceleration = 3.5;
+    } else {
+      console.log("LEVEL 1");
+      fallingObjects(1500);
+      acceleration = 3.5;
+    }
   }
 
   for (let i = 0; i < objects.length; i++) {
@@ -816,7 +844,7 @@ function gameScreen() {
     } else if (obj instanceof Treat) {
       obj.drawTreat();
     }
- 
+
     obj.velocity = velocity * acceleration;
     obj.y += obj.velocity;
 
@@ -824,7 +852,7 @@ function gameScreen() {
       powerObject.drawPowerUp();
       powerObject.velocity2 = velocity2 * acceleration2;
       powerObject.y += powerObject.velocity2;
- 
+
       if (
         isGameActive &&
         powerObject.x < CharacterRightBound &&
@@ -848,14 +876,13 @@ function gameScreen() {
           cat.previousColor = cat.color;
           // cat.color = [250, 189, 107];
           cat.color = [253, 253, 220];
-         
-        } 
+        }
       } else {
         powerObject.collided = false;
       }
     }
-  } 
- 
+  }
+
   // Move the cat
   if (keyIsDown(37) && isGameActive) {
     cat.updatePosition("left"); // Left
@@ -863,10 +890,10 @@ function gameScreen() {
     cat.updatePosition("right"); // Right
   }
 }
- 
+
 // Score Tracker
 function scoreTracker() {
-  fill(0,0,0);
+  fill(0, 0, 0);
   textStyle(BOLD);
   textSize(24);
   text("Score: " + score, 20, 50);
@@ -915,22 +942,22 @@ function draw() {
     } else {
       cat.isHappy = false; // Reset to sad state when the timer expires
       cat.isSad = false;
-    }  
-    
-    if (cat.isFast && isGameActive || cat.isColor && isGameActive) {
+    }
+
+    if ((cat.isFast && isGameActive) || (cat.isColor && isGameActive)) {
       if (cat.fastTimer > 0 || cat.colorTimer > 0) {
-        cat.fastTimer --;
-        cat.colorTimer --;
+        cat.fastTimer--;
+        cat.colorTimer--;
       } else {
         cat.isFast = false;
         cat.speed = cat.previousSpeed;
         cat.isColor = false;
         cat.color = cat.previousColor;
       }
-  
-  } }
+    }
+  }
 }
- 
+
 // Mouse clicked > game starts
 function mouseClicked() {
   if (
@@ -947,7 +974,7 @@ function mouseClicked() {
     mouseX < 700 &&
     mouseY > 330 &&
     mouseY < 410
-  ) { 
+  ) {
     objects = [];
     state = "game";
     isGameActive = true;
@@ -970,7 +997,7 @@ function changeCursor() {
     mouseY > 240 &&
     mouseY < 320 &&
     state === "start"
-  ) { 
+  ) {
     cursor(HAND);
   } else if (
     state == "gameOver" &&
