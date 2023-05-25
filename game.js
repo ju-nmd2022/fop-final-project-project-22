@@ -4,7 +4,7 @@ function setup() {
   frameRate(30);
 }
 
-// Neutral Cat Design
+// Cat Blueprint, specific properties
 class Cat {
   constructor(x, y) {
     this.x = x;
@@ -21,6 +21,7 @@ class Cat {
     this.colorTimer = 0;
   }
 
+  // Updates horizontal position of the cat within range
   updatePosition(direction) {
     if (direction === "left") {
       this.x -= this.speed;
@@ -195,6 +196,7 @@ class Cat {
     /*   ellipse(x + 20, y - 28, 20, 12); */
   }
 
+  // Neutral Cat Design
   drawNeutral() {
     fill(this.color);
     noStroke();
@@ -274,6 +276,7 @@ class Cat {
     pop();
 
     fill(this.color);
+
     // Fangs
     triangle(
       this.x - 18,
@@ -300,7 +303,7 @@ class Cat {
   }
 }
 
-// Treat Object
+// Treat Object Design
 class Treat {
   constructor(x, y) {
     this.x = x;
@@ -327,7 +330,7 @@ class Treat {
   }
 }
 
-// Fish Object
+// Fish Object Design
 class Fish {
   constructor(x, y) {
     this.x = x;
@@ -352,7 +355,7 @@ class Fish {
   }
 }
 
-// Bomb Object
+// Bomb Object Design
 class Bomb {
   constructor(x, y) {
     this.x = x;
@@ -407,7 +410,7 @@ class Bomb {
   }
 }
 
-// Speed Power up
+// Speed Power Up Design
 class PowerUp {
   constructor(x, y) {
     this.x = x;
@@ -449,7 +452,7 @@ class PowerUp {
   }
 }
 
-// Clouds
+// Clouds Design
 class Cloud {
   constructor(x, y) {
     this.x = x;
@@ -491,6 +494,7 @@ class Cloud3 extends Cloud {
   }
 }
 
+// Scenery
 function scenery() {
   noStroke();
   // Ground
@@ -509,15 +513,15 @@ function scenery() {
   cloud3.display();
 }
 
-// Start button
-class Button { 
+// Start Button
+class Button {
   constructor(x, y, diameter) {
     this.x = x;
     this.y = y;
     this.diameter = diameter;
-
   }
 
+  // Start Button Design
   display() {
     push();
     fill(196, 214, 203);
@@ -525,30 +529,38 @@ class Button {
     fill(159, 193, 175);
     ellipse(this.x, this.y, this.diameter - 10);
     fill(255, 255, 255);
-    triangle(this.x - 10, this.y - 16, this.x + 16, this.y, this.x - 10, this.y + 16);
+    triangle(
+      this.x - 10,
+      this.y - 16,
+      this.x + 16,
+      this.y,
+      this.x - 10,
+      this.y + 16
+    );
     pop();
   }
 
+  // Checks if button is clicked within boundaries
   ifClicked() {
     if (
       mouseX > this.x - this.diameter / 2 &&
       mouseX < this.x + this.diameter / 2 &&
       mouseY > this.y - this.diameter / 2 &&
-      mouseY < this.y + this.diameter / 2) 
-      {
+      mouseY < this.y + this.diameter / 2
+    ) {
       return true;
     }
     return false;
   }
 }
 
-// Button objects
+// Button Objects
 const startButton = new Button(400, 280, 80);
 const restartButton = new Button(660, 370, 80);
 
-// Logo
+// Logo Design
 function logo(x, y) {
-  // Cloud logo
+  // Cloud Logo
   ellipse(x, y, 220);
   ellipse(x - 160, y, 120);
   ellipse(x + 160, y, 120);
@@ -604,8 +616,7 @@ function logo(x, y) {
   startButton.display();
 }
 
-
-// Scoreboard
+// Scoreboard Design
 function scoreBoard(x, y) {
   push();
   fill(255, 255, 255);
@@ -639,6 +650,7 @@ function scoreBoard(x, y) {
   pop();
 }
 
+// Variables
 let isGameActive = true;
 let velocity = 2;
 let velocity2 = 2;
@@ -646,7 +658,7 @@ let score = 0;
 let health = ["❤️", "❤️", "❤️"];
 let state = "start";
 
-// cat object
+// Cat Object
 let cat = new Cat(400, 500);
 
 // Menu Screen
@@ -657,7 +669,7 @@ function menuScreen() {
   cat.drawNeutral();
 }
 
-// Game over screen
+// Game Over Screen
 function gameOver() {
   scenery();
   scoreBoard(246, 100);
@@ -672,37 +684,42 @@ function gameOver() {
   cat.color = [255, 255, 255];
   cat.drawSad();
 
-  // retrieve higshcores from the array in local storage
+  // Retrieve higshcores from the array in Local Storage
   let highscores = JSON.parse(localStorage.getItem("scores"));
 
-  // displays highscores along with its position
+  // Displays highscores along with its position
   for (let i = 0; i < highscores.length; i++) {
     fill(0, 0, 0);
     displayHighscore(highscores[i], i, 482, 225 + i * 70, 202, 128, "player");
   }
 }
 
+// Variables
 let catX = 400;
 let acceleration = 1.0;
 let acceleration2 = 1.0;
 
+// Saves Highscore in Local Storage
 function saveHighscore(score) {
   const highscores = "scores";
-  const highScoreString = localStorage.getItem(highscores);
-  let scores = [];
+  const highScoreString = localStorage.getItem(highscores); // Retrieves value + assigns to highScoreString
+  let scores = []; // Array to store highscores
 
+  // If highScoreString contains stored value, it parses the string into an the scores variable array
   if (highScoreString !== null) {
     scores = JSON.parse(highScoreString);
   }
 
+  // If "score" is not already in "scores" array, add it at the end of the array
   if (!scores.includes(score)) {
     scores.push(score);
-    scores.sort((a, b) => b - a);
-    scores.splice(4);
-    localStorage.setItem(highscores, JSON.stringify(scores));
+    scores.sort((a, b) => b - a); // Sorts scores from highest to lowest
+    scores.splice(4); // Keeps it at 4 scores in the array by removing elements beyond 4
+    localStorage.setItem(highscores, JSON.stringify(scores)); // Store scores array as a JSON string
   }
 }
 
+// Displays Highscore
 function displayHighscore(
   scoreElement,
   index,
@@ -719,24 +736,26 @@ function displayHighscore(
 }
 // localStorage.clear();
 
+// New Power Up object w. randon positions
 function fallingSpeedObject() {
-    let Xposition = Math.floor(random(50, 750));
-    let Yposition = -10;
+  let Xposition = Math.floor(random(50, 750));
+  let Yposition = -10;
 
-    let newPowerObject = new PowerUp(Xposition, Yposition);
-    powerObject = newPowerObject;
+  let newPowerObject = new PowerUp(Xposition, Yposition);
+  powerObject = newPowerObject; // Assigns newPowerObject to variable powerObject
 
-    powerObject.velocity2 = velocity2 * acceleration2;
-  
+  powerObject.velocity2 = velocity2 * acceleration2; // Speed and acceleration of Power Up object
 }
 
-
 powerObject = null;
-// Game screen
+
+// Game Screen
 function gameScreen() {
   scenery();
   cat.drawNeutral();
-  //retrieve characters width interval based on x-position in order to compare with objects
+
+  // Calculations to determine the boundaries of the cat for collision detection
+  // Retrieve characters width interval based on x-position in order to compare with objects
   let characterX = cat.x;
   let CharacterWidth = 115;
   let characterLeftBound = characterX - CharacterWidth / 2;
@@ -759,23 +778,23 @@ function gameScreen() {
 
     let currentLevel = levels[levels.length - 1];
     for (let i = levels.length - 1; i >= 0; i--) {
-     
       if (score >= levels[i].score) {
         currentLevel = levels[i];
-        
-        if ((score === 20 || score === 55 ||  score === 85 ) && powerObject === null) {
-          fallingSpeedObject();
 
+        if (
+          (score === 20 || score === 55 || score === 85) &&
+          powerObject === null
+        ) {
+          fallingSpeedObject();
         }
         break;
       }
-    } 
+    }
 
     console.log("LEVEL", levels.indexOf(currentLevel) + 1);
     fallingObjects(currentLevel.fallingObjects);
-    acceleration = currentLevel.acceleration; 
+    acceleration = currentLevel.acceleration;
   }
-   
 
   for (let i = 0; i < objects.length; i++) {
     let obj = objects[i];
@@ -953,15 +972,9 @@ function draw() {
 
 // Mouse clicked > game starts
 function mouseClicked() {
-  if (
-    state === "start" &&
-    startButton.ifClicked()
-  ) {
+  if (state === "start" && startButton.ifClicked()) {
     state = "game";
-  } else if (
-    state === "gameOver" &&
-    restartButton.ifClicked()
-  ) {
+  } else if (state === "gameOver" && restartButton.ifClicked()) {
     objects = [];
     state = "game";
     isGameActive = true;
@@ -974,23 +987,17 @@ function mouseClicked() {
     health = ["❤️", "❤️", "❤️"];
     score = 0;
   }
-
 }
 
 // Changes cursor when hovering over the startbutton
 function changeCursor() {
-  if (state === "start" && startButton.ifClicked()
-  ) {
+  if (state === "start" && startButton.ifClicked()) {
     cursor(HAND);
-  } else if (
-    state == "gameOver" &&
-    restartButton.ifClicked()
-  ) {
+  } else if (state == "gameOver" && restartButton.ifClicked()) {
     cursor(HAND);
   } else {
     cursor(ARROW);
   }
- 
 }
 
 let objects = [];
