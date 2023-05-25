@@ -7,6 +7,7 @@ class Cat {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+    this.color = [255,255,255];
     this.speed = 15;
     this.isFast = false;
     this.isHappy = false;
@@ -14,6 +15,8 @@ class Cat {
     this.happyTimer = 0;
     this.sadTimer = 0;
     this.fastTimer = 0;
+    this.isColor = false;
+    this.colorTimer = 0;
   }
 
   updatePosition(direction) {
@@ -26,6 +29,7 @@ class Cat {
   }
 
   drawHappy() {
+    fill(this.color);
     noStroke();
 
     // Ear left
@@ -81,7 +85,8 @@ class Cat {
     ellipse(this.x + 6, this.y - 27, 12);
     ellipse(this.x, this.y - 30, 4);
     pop();
-
+    
+    fill(this.color);
     // Paw left
     ellipse(this.x - 30, this.y + 40, 15);
 
@@ -96,6 +101,7 @@ class Cat {
   }
 
   drawSad() {
+    fill(this.color);
     noStroke();
 
     // Ear left
@@ -150,7 +156,8 @@ class Cat {
     rect(this.x - 10, this.y - 13, 20, 13);
     /* ellipse(x, y - 15, 14, 13); */
     pop();
-
+    
+    fill(this.color);
     // Paw left
     ellipse(this.x - 30, this.y + 40, 15);
 
@@ -185,6 +192,7 @@ class Cat {
   }
 
   drawNeutral() {
+    fill(this.color);
     noStroke();
 
     // Ear left
@@ -260,7 +268,8 @@ class Cat {
     rotate(0.3);
     ellipse(0, 0, 22, 10);
     pop();
-
+    
+    fill(this.color);
     // Fangs
     triangle(
       this.x - 18,
@@ -614,9 +623,8 @@ function menuScreen() {
   scenery();
   logo(400, 190);
   cat.drawNeutral();
-  // powerUp(200, 200);
 }
-
+  
 // Game over screen
 function gameOver() {
   scenery();
@@ -629,6 +637,7 @@ function gameOver() {
   startButton(660, 370);
   cat.x = 130;
   cat.y = 370; 
+  cat.color = [255,255,255];
   cat.drawSad();
   // text("Enter name:", 590, 390);
 
@@ -637,6 +646,7 @@ function gameOver() {
 
   // displays highscores along with its position
   for (let i = 0; i < highscores.length; i++) {
+    fill(0,0,0);
     displayHighscore(highscores[i], i, 482, 225 + i * 70, 202, 128, "player");
   } 
 }
@@ -748,10 +758,10 @@ function gameScreen() {
     } else if (score === 10 && powerObject === null) {
       console.log("LEVEL 3");
       // fallingSpeedObject();
-     
+      
       fallingObjects(1200);
       acceleration = 3.7;
-  
+   
     } else if (score > 3) {
       console.log("LEVEL 2");
       fallingObjects(1300);
@@ -857,19 +867,23 @@ function gameScreen() {
           powerObject.collided = true;
           powerObject = null;
           score += 1;
-
           cat.isFast = true;
           cat.fastTimer = 500;
           cat.previousSpeed = cat.speed;
           cat.speed = 40;
-
-        }
+          cat.isColor = true;
+          cat.colorTimer = 500;
+          cat.previousColor = cat.color;
+          // cat.color = [250, 189, 107];
+          cat.color = [253, 253, 220];
+         
+        } 
       } else {
         powerObject.collided = false;
       }
     }
-  }
-
+  } 
+ 
   // Move the cat
   if (keyIsDown(37) && isGameActive) {
     cat.updatePosition("left"); // Left
@@ -877,9 +891,10 @@ function gameScreen() {
     cat.updatePosition("right"); // Right
   }
 }
-
+ 
 // Score Tracker
 function scoreTracker() {
+  fill(0,0,0);
   textStyle(BOLD);
   textSize(24);
   text("Score: " + score, 20, 50);
@@ -929,15 +944,18 @@ function draw() {
       cat.isHappy = false; // Reset to sad state when the timer expires
       cat.isSad = false;
     }  
-  
-    if (cat.isFast && isGameActive) {
-      if (cat.fastTimer > 0) {
+    
+    if (cat.isFast && isGameActive || cat.isColor && isGameActive) {
+      if (cat.fastTimer > 0 || cat.colorTimer > 0) {
         cat.fastTimer --;
+        cat.colorTimer --;
       } else {
         cat.isFast = false;
         cat.speed = cat.previousSpeed;
+        cat.isColor = false;
+        cat.color = cat.previousColor;
       }
-
+  
   } }
 }
  
@@ -980,7 +998,7 @@ function changeCursor() {
     mouseY > 240 &&
     mouseY < 320 &&
     state === "start"
-  ) {
+  ) { 
     cursor(HAND);
   } else if (
     state == "gameOver" &&
