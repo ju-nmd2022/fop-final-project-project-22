@@ -509,6 +509,43 @@ function scenery() {
   cloud3.display();
 }
 
+// Start button
+class Button { 
+  constructor(x, y, diameter) {
+    this.x = x;
+    this.y = y;
+    this.diameter = diameter;
+
+  }
+
+  display() {
+    push();
+    fill(196, 214, 203);
+    ellipse(this.x, this.y, this.diameter);
+    fill(159, 193, 175);
+    ellipse(this.x, this.y, this.diameter - 10);
+    fill(255, 255, 255);
+    triangle(this.x - 10, this.y - 16, this.x + 16, this.y, this.x - 10, this.y + 16);
+    pop();
+  }
+
+  ifClicked() {
+    if (
+      mouseX > this.x - this.diameter / 2 &&
+      mouseX < this.x + this.diameter / 2 &&
+      mouseY > this.y - this.diameter / 2 &&
+      mouseY < this.y + this.diameter / 2) 
+      {
+      return true;
+    }
+    return false;
+  }
+}
+
+// Button objects
+const startButton = new Button(400, 280, 80);
+const restartButton = new Button(660, 370, 80);
+
 // Logo
 function logo(x, y) {
   // Cloud logo
@@ -564,20 +601,9 @@ function logo(x, y) {
   ellipse(x + 134, y, 20);
   pop();
 
-  startButton(400, 280);
+  startButton.display();
 }
 
-// Start button
-function startButton(x, y) {
-  push();
-  fill(196, 214, 203);
-  ellipse(x, y, 80);
-  fill(159, 193, 175);
-  ellipse(x, y, 70);
-  fill(255, 255, 255);
-  triangle(x - 10, y - 16, x + 16, y, x - 10, y + 16);
-  pop();
-}
 
 // Scoreboard
 function scoreBoard(x, y) {
@@ -640,7 +666,7 @@ function gameOver() {
   textStyle(BOLD);
   text("TRY AGAIN!", 590, 310);
   pop();
-  startButton(660, 370);
+  restartButton.display();
   cat.x = 130;
   cat.y = 370;
   cat.color = [255, 255, 255];
@@ -701,14 +727,9 @@ function fallingSpeedObject() {
     powerObject = newPowerObject;
 
     powerObject.velocity2 = velocity2 * acceleration2;
-    // powerObject.y = Yposition;
   
 }
 
-let isSad = false;
-let isHappy = false;
-let happyTimer = 0;
-let sadTimer = 0;
 
 powerObject = null;
 // Game screen
@@ -736,12 +757,9 @@ function gameScreen() {
       { score: 80, fallingObjects: 600, acceleration: 4.5 },
     ];
 
-
     let currentLevel = levels[levels.length - 1];
     for (let i = levels.length - 1; i >= 0; i--) {
-      console.log("checking level:", i + 1);
-      console.log("score:", score);
-      console.log("level score:", levels[i].score);
+     
       if (score >= levels[i].score) {
         currentLevel = levels[i];
         
@@ -850,7 +868,6 @@ function gameScreen() {
           cat.isColor = true;
           cat.colorTimer = 500;
           cat.previousColor = cat.color;
-          // cat.color = [250, 189, 107];
           cat.color = [253, 253, 220];
         }
       } else {
@@ -938,18 +955,12 @@ function draw() {
 function mouseClicked() {
   if (
     state === "start" &&
-    mouseX > 360 &&
-    mouseX < 440 &&
-    mouseY > 240 &&
-    mouseY < 320
+    startButton.ifClicked()
   ) {
     state = "game";
   } else if (
     state === "gameOver" &&
-    mouseX > 620 &&
-    mouseX < 700 &&
-    mouseY > 330 &&
-    mouseY < 410
+    restartButton.ifClicked()
   ) {
     objects = [];
     state = "game";
@@ -963,29 +974,23 @@ function mouseClicked() {
     health = ["❤️", "❤️", "❤️"];
     score = 0;
   }
+
 }
 
 // Changes cursor when hovering over the startbutton
 function changeCursor() {
-  if (
-    mouseX > 360 &&
-    mouseX < 440 &&
-    mouseY > 240 &&
-    mouseY < 320 &&
-    state === "start"
+  if (state === "start" && startButton.ifClicked()
   ) {
     cursor(HAND);
   } else if (
     state == "gameOver" &&
-    mouseX > 620 &&
-    mouseX < 700 &&
-    mouseY > 330 &&
-    mouseY < 410
+    restartButton.ifClicked()
   ) {
     cursor(HAND);
   } else {
     cursor(ARROW);
   }
+ 
 }
 
 let objects = [];
