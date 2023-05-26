@@ -761,7 +761,7 @@ function gameScreen() {
   let characterLeftBound = characterX - CharacterWidth / 2;
   let CharacterRightBound = characterX + CharacterWidth / 2;
 
-  // increase acceleration and objects each level
+  // Increase acceleration and objects each level of scores
   if (isGameActive) {
     const levels = [
       { score: 0, fallingObjects: 1500, acceleration: 3.5 },
@@ -774,13 +774,15 @@ function gameScreen() {
       { score: 60, fallingObjects: 800, acceleration: 4.2 },
       { score: 70, fallingObjects: 700, acceleration: 4.3 },
       { score: 80, fallingObjects: 600, acceleration: 4.5 },
-    ];
+    ]; // Array with game levels
 
+    // Checks current level
     let currentLevel = levels[levels.length - 1];
     for (let i = levels.length - 1; i >= 0; i--) {
       if (score >= levels[i].score) {
         currentLevel = levels[i];
 
+        // Release Power Up at score 20, 55 & 85
         if (
           (score === 20 || score === 55 || score === 85) &&
           powerObject === null
@@ -799,7 +801,8 @@ function gameScreen() {
   for (let i = 0; i < objects.length; i++) {
     let obj = objects[i];
 
-    // check for collision
+    // Checks for collision
+    // Checks if object is in the same area as cat
     if (
       isGameActive &&
       obj.x < CharacterRightBound &&
@@ -807,49 +810,51 @@ function gameScreen() {
       obj.y > 444 &&
       obj.y < 550
     ) {
-      //check if the objects are collectable => increase score
+      // Check if the objects are collectable => increase score
+      // If object has been collided, remove from array, increase score +1, happy state + timer
       if ((!obj.collided && obj instanceof Fish) || obj instanceof Treat) {
         // console.log(obj.y);
         obj.collided = true;
-        //remove the collided object from the array
+        // Remove the collided object from the array
         objects.splice(i, 1);
-        //increase score by 1
+        // Increase score by 1
         score += 1;
-        //switch to happy cat for certain amount of time when collecting
+        // Switch to happy cat for certain amount of time when collecting
         cat.isHappy = true;
         cat.happyTimer = 15;
-        //check if the objects are NOT collectable => decrease health
+
+        // Check if the objects are NOT collectable => decrease health
+        // Not collectable (bomb), checks if not collided w. before, sad state + timer, removed from array, -1 heart
       } else if (!obj.collided && obj instanceof Bomb) {
         cat.isSad = true;
         cat.sadTimer = 15;
         obj.collided = true;
-        //remove the collided object from the array
+        // Remove the collided object from the array
         objects.splice(i, 1);
-        // remove a heart from the health array
+        // Remove a heart from the health array
         health.pop();
-      } else if ((obj instanceof Fish || obj instanceof Treat) && obj.y > 505) {
-        //remove the collided object from the array
-        objects.splice(i, 1);
 
-        health.pop();
-      }
+      // If object is not in the area of cat, obj.collided = false
     } else {
       obj.collided = false;
     }
 
+    // If object.y > 505 & fish & treat, removes collided object from array & game
     if (obj.y > 505 && (obj instanceof Fish || obj instanceof Treat)) {
-      objects.splice(i, 1);
-      health.pop();
-      cat.isSad = true;
-      cat.sadTimer = 15;
+      objects.splice(i, 1); // Removes from array
+      health.pop(); // Removes a heart
+      cat.isSad = true; // Sad cat
+      cat.sadTimer = 15; // Timer for sad cat
     }
 
+    // If no lives left, Game Over, saves the player's score
     if (health.length === 0) {
       state = "gameOver";
       isGameActive = false;
       saveHighscore(score);
     }
 
+    // Type of objects
     if (obj instanceof Fish) {
       obj.drawFish();
     } else if (obj instanceof Bomb) {
@@ -858,14 +863,17 @@ function gameScreen() {
       obj.drawTreat();
     }
 
+    // Objects falling & speed
     obj.velocity = velocity * acceleration;
     obj.y += obj.velocity;
 
+    // Displays Power Up design & speed
     if (powerObject instanceof PowerUp) {
       powerObject.drawPowerUp();
       powerObject.velocity2 = velocity2 * acceleration2;
       powerObject.y += powerObject.velocity2;
 
+      // If Power Up collided with cat, it is collectable
       if (
         isGameActive &&
         powerObject.x < CharacterRightBound &&
@@ -873,22 +881,23 @@ function gameScreen() {
         powerObject.y > 444 &&
         powerObject.y < 550
       ) {
-        //check if the objects are collectable => increase score
+        // Check if the objects are collectable => increase score
         if (!powerObject.collided) {
           console.log("POWER UP!!!!");
           console.log(powerObject.velocity2);
-          powerObject.collided = true;
-          powerObject = null;
-          score += 1;
-          cat.isFast = true;
-          cat.fastTimer = 500;
+          powerObject.collided = true; // Collided
+          powerObject = null; // Removes it from game
+          score += 1; // +1 score
+          cat.isFast = true; // Fast state
+          cat.fastTimer = 500; // Fast state timers
           cat.previousSpeed = cat.speed;
-          cat.speed = 40;
-          cat.isColor = true;
-          cat.colorTimer = 500;
+          cat.speed = 40; // Speed increased to 40
+          cat.isColor = true; // Cat changes to yellow color
+          cat.colorTimer = 500; // Timer for color
           cat.previousColor = cat.color;
           cat.color = [253, 253, 220];
         }
+      // Not in area of cat = not collided
       } else {
         powerObject.collided = false;
       }
@@ -903,7 +912,7 @@ function gameScreen() {
   }
 }
 
-// Score Tracker
+// Score Tracker Display
 function scoreTracker() {
   fill(0, 0, 0);
   textStyle(BOLD);
@@ -911,9 +920,9 @@ function scoreTracker() {
   text("Score: " + score, 20, 50);
 }
 
-// Health Tracker
+// Health Tracker Display
 function healthTracker() {
-  //display the health array as a string, to remove "," from screen
+  // Display the health array as a string, to remove "," from screen
   let healthString = health.join("");
   text("Health: " + healthString, 20, 100);
 }
@@ -937,6 +946,7 @@ function draw() {
   healthTracker();
 
   if (isGameActive) {
+    // Cat's emotions
     if (cat.isHappy) {
       // Draw the happy cat
       cat.drawHappy();
@@ -944,22 +954,25 @@ function draw() {
       // Draw the sad cat
       cat.drawSad();
     } else {
-      // Draw the sad cat
+      // Draw the neutral cat
       cat.drawNeutral();
     }
 
+    // Cat's emotion changes back to neutral after a duration
     if (cat.happyTimer > 0 || cat.sadTimer > 0) {
       cat.happyTimer--;
       cat.sadTimer--;
     } else {
-      cat.isHappy = false; // Reset to sad state when the timer expires
-      cat.isSad = false;
+      cat.isHappy = false; // Reset to neutral state when the timer expires
+      cat.isSad = false; // Reset to neutral state when the timer expires
     }
 
+    // If cat is in fast state or color state, timers decremented by 1
     if ((cat.isFast && isGameActive) || (cat.isColor && isGameActive)) {
       if (cat.fastTimer > 0 || cat.colorTimer > 0) {
         cat.fastTimer--;
         cat.colorTimer--;
+      // If timers reached 0, cat returns to previous speed & color
       } else {
         cat.isFast = false;
         cat.speed = cat.previousSpeed;
@@ -975,11 +988,10 @@ function mouseClicked() {
   if (state === "start" && startButton.ifClicked()) {
     state = "game";
   } else if (state === "gameOver" && restartButton.ifClicked()) {
-    objects = [];
+    objects = []; // Resets the game
     state = "game";
     isGameActive = true;
     velocity = 2;
-    // velocity1 = 2;
     acceleration = 1;
     cat.x = 400;
     cat.y = 500;
@@ -1004,24 +1016,28 @@ let objects = [];
 let lastObjectSpawned = 0;
 let timeVariable = 1000;
 
+// Spawns objects in the game at certain time intervals
 function fallingObjects(timeVariable) {
   let currentTime = millis();
 
+  // Checks if enough time has passed since last object was spawned
+  // If elapsed time > timeVariable, create a new object and add to objects array
   if (currentTime - lastObjectSpawned > timeVariable) {
     let randomWidth = Math.floor(random(50, 750));
     let heightPosition = -10;
     let newObject;
 
-    let randomNumber = Math.floor(Math.random() * 101);
+    let randomNumber = Math.floor(Math.random() * 101); // Random object spawn between 0 and 101
 
-    if (randomNumber < 40) {
+    if (randomNumber < 40) { // If randomNumber < 40, Fish object created
       newObject = new Fish(randomWidth, heightPosition);
-    } else if (randomNumber < 60) {
+    } else if (randomNumber < 60) { // If randomNumber < 60, Bomb is created
       newObject = new Bomb(randomWidth, heightPosition);
-    } else {
+    } else { // Otherwise, Treat is created
       newObject = new Treat(randomWidth, heightPosition);
     }
 
+    // New object pushed into "objects" array
     objects.push(newObject);
     lastObjectSpawned = currentTime;
   }
