@@ -751,13 +751,13 @@ powerObject = null;
 function gameScreen() {
   scenery();
   cat.drawNeutral();
-  //retrieve characters width interval based on x-position in order to compare with objects
+  // Retrieve characters width interval based on x-position in order to compare with objects
   let characterX = cat.x;
   let CharacterWidth = 115;
   let characterLeftBound = characterX - CharacterWidth / 2;
   let CharacterRightBound = characterX + CharacterWidth / 2;
 
-  // increase acceleration and objects each level
+  // Increase acceleration and objects each level of scores
   if (isGameActive) {
     const levels = [
       { score: 0, fallingObjects: 1500, acceleration: 3.5 },
@@ -770,32 +770,35 @@ function gameScreen() {
       { score: 60, fallingObjects: 800, acceleration: 4.2 },
       { score: 70, fallingObjects: 700, acceleration: 4.3 },
       { score: 80, fallingObjects: 600, acceleration: 4.5 },
-    ];
+    ]; // Array with game levels
 
+    // Checks current level
     let currentLevel = levels[levels.length - 1];
     for (let i = levels.length - 1; i >= 0; i--) {
-     
       if (score >= levels[i].score) {
         currentLevel = levels[i];
-        
-        if ((score === 20 || score === 55 ||  score === 85 ) && powerObject === null) {
-          fallingSpeedObject();
 
+        // Release Power Up at score 20, 55 & 85
+        if (
+          (score === 20 || score === 55 || score === 85) &&
+          powerObject === null
+        ) {
+          fallingSpeedObject();
         }
         break;
       }
-    } 
+    }
 
     console.log("LEVEL", levels.indexOf(currentLevel) + 1);
     fallingObjects(currentLevel.fallingObjects);
-    acceleration = currentLevel.acceleration; 
+    acceleration = currentLevel.acceleration;
   }
-   
 
   for (let i = 0; i < objects.length; i++) {
     let obj = objects[i];
 
-    // check for collision
+    // Check for collision
+    // Checks if object is in the same area as cat
     if (
       isGameActive &&
       obj.x < CharacterRightBound &&
@@ -803,28 +806,31 @@ function gameScreen() {
       obj.y > 444 &&
       obj.y < 550
     ) {
-      //check if the objects are collectable => increase score
+      // Check if the objects are collectable => increase score
+      // If object has been collided, remove from array, increase score +1, happy state + timer
       if ((!obj.collided && obj instanceof Fish) || obj instanceof Treat) {
         // console.log(obj.y);
         obj.collided = true;
-        //remove the collided object from the array
+        // Remove the collided object from the array
         objects.splice(i, 1);
-        //increase score by 1
+        // Increase score by 1
         score += 1;
-        //switch to happy cat for certain amount of time when collecting
+        // Switch to happy cat for certain amount of time when collecting
         cat.isHappy = true;
         cat.happyTimer = 15;
-        //check if the objects are NOT collectable => decrease health
+
+        // Check if the objects are NOT collectable => decrease health
+        // Not collectable (bomb), checks if not collided w. before, sad state + timer, removed from array, -1 heart
       } else if (!obj.collided && obj instanceof Bomb) {
         cat.isSad = true;
         cat.sadTimer = 15;
         obj.collided = true;
-        //remove the collided object from the array
+        // Remove the collided object from the array
         objects.splice(i, 1);
-        // remove a heart from the health array
+        // Remove a heart from the health array
         health.pop();
       } else if ((obj instanceof Fish || obj instanceof Treat) && obj.y > 505) {
-        //remove the collided object from the array
+        // Remove the collided object from the array
         objects.splice(i, 1);
 
         health.pop();
@@ -833,19 +839,22 @@ function gameScreen() {
       obj.collided = false;
     }
 
+    // If object.y > 505 & fish & treat, removes collided object from array & game
     if (obj.y > 505 && (obj instanceof Fish || obj instanceof Treat)) {
-      objects.splice(i, 1);
-      health.pop();
-      cat.isSad = true;
-      cat.sadTimer = 15;
+      objects.splice(i, 1); // Removes from array
+      health.pop(); // Removes a heart
+      cat.isSad = true; // Sad cat
+      cat.sadTimer = 15; // Timer for sad cat
     }
 
+    // If no lives left, Game Over, saves the player's score
     if (health.length === 0) {
       state = "gameOver";
       isGameActive = false;
       saveHighscore(score);
     }
 
+    // Type of objects
     if (obj instanceof Fish) {
       obj.drawFish();
     } else if (obj instanceof Bomb) {
@@ -854,14 +863,17 @@ function gameScreen() {
       obj.drawTreat();
     }
 
+    // Objects falling & speed
     obj.velocity = velocity * acceleration;
     obj.y += obj.velocity;
 
+    // Displays Power Up design & speed
     if (powerObject instanceof PowerUp) {
       powerObject.drawPowerUp();
       powerObject.velocity2 = velocity2 * acceleration2;
       powerObject.y += powerObject.velocity2;
 
+      // If Power Up collided with cat, it is collectable
       if (
         isGameActive &&
         powerObject.x < CharacterRightBound &&
@@ -869,23 +881,24 @@ function gameScreen() {
         powerObject.y > 444 &&
         powerObject.y < 550
       ) {
-        //check if the objects are collectable => increase score
+        // Check if the objects are collectable => increase score
         if (!powerObject.collided) {
           console.log("POWER UP!!!!");
           console.log(powerObject.velocity2);
-          powerObject.collided = true;
-          powerObject = null;
-          score += 1;
-          cat.isFast = true;
-          cat.fastTimer = 500;
+          powerObject.collided = true; // Collided
+          powerObject = null; // Removes it from game
+          score += 1; // +1 score
+          cat.isFast = true; // Fast state
+          cat.fastTimer = 500; // Fast state timers
           cat.previousSpeed = cat.speed;
-          cat.speed = 40;
-          cat.isColor = true;
-          cat.colorTimer = 500;
+          cat.speed = 40; // Speed increased to 40
+          cat.isColor = true; // Cat changes to yellow color
+          cat.colorTimer = 500; // Timer for color
           cat.previousColor = cat.color;
           cat.color = [253, 253, 220];
         }
       } else {
+        // Not in area of cat = not collided
         powerObject.collided = false;
       }
     }
@@ -898,7 +911,6 @@ function gameScreen() {
     cat.updatePosition("right"); // Right
   }
 }
-
 
 // Score Tracker Display
 function scoreTracker() {
@@ -960,7 +972,7 @@ function draw() {
       if (cat.fastTimer > 0 || cat.colorTimer > 0) {
         cat.fastTimer--;
         cat.colorTimer--;
-      // If timers reached 0, cat returns to previous speed & color
+        // If timers reached 0, cat returns to previous speed & color
       } else {
         cat.isFast = false;
         cat.speed = cat.previousSpeed;
@@ -1017,11 +1029,14 @@ function fallingObjects(timeVariable) {
 
     let randomNumber = Math.floor(Math.random() * 101); // Random object spawn between 0 and 101
 
-    if (randomNumber < 40) { // If randomNumber < 40, Fish object created
+    if (randomNumber < 40) {
+      // If randomNumber < 40, Fish object created
       newObject = new Fish(randomWidth, heightPosition);
-    } else if (randomNumber < 60) { // If randomNumber < 60, Bomb is created
+    } else if (randomNumber < 60) {
+      // If randomNumber < 60, Bomb is created
       newObject = new Bomb(randomWidth, heightPosition);
-    } else { // Otherwise, Treat is created
+    } else {
+      // Otherwise, Treat is created
       newObject = new Treat(randomWidth, heightPosition);
     }
 
